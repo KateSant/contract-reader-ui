@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.logging.Logger;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,22 +31,20 @@ public class UploadController {
     @PostMapping("/upload-file")
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
 
-        if (file.isEmpty()) {
-            model.addAttribute("errormessage", "File was empty.");
-            return "analysis";
-        }
+      
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+        try {
 
-            
-            String firstLine = reader.readLine();
-            reader.close();
-            
-            model.addAttribute("contents", firstLine);
+            XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(file.getInputStream()));
+            XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
+            String text = extractor.getText();
+
+            model.addAttribute("raw", text);
+            Logger.getAnonymousLogger().info("text="+text);
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");
-  
+
         }
         return "analysis";
 

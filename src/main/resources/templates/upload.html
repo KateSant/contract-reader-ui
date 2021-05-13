@@ -1,28 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contract Reader</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-  </head>
-<body>
-    <div th:replace="fragments/header :: header">...</div>
-    <section class="section">
-    <div class="container">
-      <h1 class="title">
-        Upload a contract 
-      </h1>
-      
-      <form method="POST" th:action="@{/upload-file}" enctype="multipart/form-data">
-    <div class="form-group mt-3">
-        <label for="file">Select a MS Word file (.docx)</label>
-        <input type="file" name="file" class="form-control-file" id="file" accept=".docx">
-    </div>
-    <button type="submit" class="btn btn-primary">Upload</button>
-</form>
-      
-    </div>
-  </section>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Contract Reader</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">...</div>
+        <section class="section">
+            <div class="container">
+                <h1 class="title">
+                    Upload a contract 
+                </h1>
+
+                <form method="POST" th:action="@{/upload-file}" enctype="multipart/form-data">
+                    <div class="form-group mt-3">
+                        <label for="file">Select a MS Word file (.docx)</label>
+                        <input type="file" name="file" class="form-control-file" id="file" accept=".docx">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </body>
 </html>
