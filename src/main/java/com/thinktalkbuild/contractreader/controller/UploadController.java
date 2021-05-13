@@ -40,7 +40,7 @@ public class UploadController {
             String text = extractor.getText();
 
             model.addAttribute("raw", text);
-            Logger.getAnonymousLogger().info("text="+text);
+            
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");
