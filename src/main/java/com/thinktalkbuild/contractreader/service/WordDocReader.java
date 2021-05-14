@@ -1,6 +1,9 @@
 package com.thinktalkbuild.contractreader.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -19,7 +22,24 @@ public class WordDocReader {
         XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(file.getInputStream()));
         XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
         return extractor.getText();
-
+    }
+    
+    public List<String> parseParagraphs(String raw){
+        List<String> paragraphs = new ArrayList<>();
+        
+        String[] split = raw.split("\\n");
+        
+        for(String line: split){
+            if (!isEmptyOrWhitespace(line)){
+                paragraphs.add(line);
+                Logger.getAnonymousLogger().info("para="+line);
+            }     
+        }
+        return paragraphs;
+    }
+    
+    private boolean isEmptyOrWhitespace(String line){
+        return line.isEmpty() || line.matches("^\\s*$");
     }
 
 }

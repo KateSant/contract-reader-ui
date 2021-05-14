@@ -30,14 +30,10 @@ public class UploadController {
 
     @PostMapping("/upload-file")
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
-
-      
-
+   
         try {
-
             String text = reader.extractTextFromFile(file);
-            model.addAttribute("raw", text);
-            
+            model.addAttribute("raw", text);      
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");

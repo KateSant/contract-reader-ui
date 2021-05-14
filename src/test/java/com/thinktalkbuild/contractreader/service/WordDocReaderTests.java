@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.logging.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -30,13 +32,21 @@ public class WordDocReaderTests {
    private WordDocReader reader = new WordDocReader();
 
    @Test
-   void testReaderParsesWordDoc() throws IOException, InvalidFormatException{
+   void testExtractTextFromWordDoc() throws IOException, InvalidFormatException{
        
-       Logger.getAnonymousLogger().info("reader="+reader);
        MockMultipartFile mockFile = dummyWordDoc("WordDocWithLinesAndParagraphs.docx");
        String text = reader.extractTextFromFile(mockFile);
-       Logger.getLogger(this.getClass().getName()).info("Text="+text);
        assertFalse(text.isEmpty());
+       
+   }
+   
+    @Test
+   void testParseParagraphs_ignoresWitespaceLines() throws IOException, InvalidFormatException{
+       
+       MockMultipartFile mockFile = dummyWordDoc("WordDocWithLinesAndParagraphs.docx");
+       String raw = reader.extractTextFromFile(mockFile);
+       List<String> paragraphs = reader.parseParagraphs(raw);
+       assertEquals(paragraphs.size(), 3);  // ignores 2 whitespace lines
        
    }
    
