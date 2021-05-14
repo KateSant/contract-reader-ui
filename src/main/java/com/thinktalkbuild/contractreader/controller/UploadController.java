@@ -1,19 +1,15 @@
 package com.thinktalkbuild.contractreader.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.logging.Logger;
+import com.thinktalkbuild.contractreader.service.WordDocReader;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -22,6 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class UploadController {
+    
+    @Autowired
+    private WordDocReader reader;
+    
 
     @GetMapping("/")
     public String greeting(Model model) {
@@ -35,10 +35,7 @@ public class UploadController {
 
         try {
 
-            XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(file.getInputStream()));
-            XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
-            String text = extractor.getText();
-
+            String text = reader.extractTextFromFile(file);
             model.addAttribute("raw", text);
             
 
