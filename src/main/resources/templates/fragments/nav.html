@@ -5,7 +5,7 @@
     <body>
         <div th:fragment="nav">
 
-            <nav class="navbar" role="navigation" aria-label="main navigation">
+            <nav class="navbar bd-navbar" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand is-success">
                     <a class="navbar-item" href="/">
                         [Contract Reader LOGO]
@@ -15,16 +15,30 @@
                 <div id="navbarBasicExample" class="navbar-menu">
                     <div class="navbar-start">
                         <a class="navbar-item" href="/">
-                            Home
+                            <span class="icon">
+                                <i class="fas fa-home"></i>
+                            </span>
+
+                            <span>Home</span>
                         </a>
 
                         <a class="navbar-item" href="/">
-                            Upload a contract
+                            <span class="icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+
+                            <span>Upload</span>
                         </a>
+
+
 
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link">
-                                More nav here
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+
+                                <span>More</span>
                             </a>
 
                             <div class="navbar-dropdown">
