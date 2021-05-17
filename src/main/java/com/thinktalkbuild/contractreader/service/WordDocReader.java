@@ -25,14 +25,12 @@ public class WordDocReader {
     }
     
     public List<String> parseParagraphs(String raw){
-        List<String> paragraphs = new ArrayList<>();
-        
-        String[] split = raw.split("\\n");
-        
+        List<String> paragraphs = new ArrayList<>();      
+        String[] split = raw.split("\\n");   
         for(String line: split){
             if (!isEmptyOrWhitespace(line)){
                 paragraphs.add(line);
-                Logger.getAnonymousLogger().info("para="+line);
+            
             }     
         }
         return paragraphs;

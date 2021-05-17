@@ -46,7 +46,7 @@ public class WordDocReaderTests {
        MockMultipartFile mockFile = dummyWordDoc("WordDocWithLinesAndParagraphs.docx");
        String raw = reader.extractTextFromFile(mockFile);
        List<String> paragraphs = reader.parseParagraphs(raw);
-       assertEquals(paragraphs.size(), 3);  // ignores 2 whitespace lines
+       assertEquals(paragraphs.size(), 3);  // file has 3 text lines and 2 whitespace lines
        
    }
    

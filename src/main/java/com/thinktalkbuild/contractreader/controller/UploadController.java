@@ -1,6 +1,7 @@
 package com.thinktalkbuild.contractreader.controller;
 
 import com.thinktalkbuild.contractreader.service.WordDocReader;
+import java.util.List;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -33,7 +34,9 @@ public class UploadController {
    
         try {
             String text = reader.extractTextFromFile(file);
-            model.addAttribute("raw", text);      
+            List<String> paragraphs = reader.parseParagraphs(text);
+            model.addAttribute("raw", text); 
+            model.addAttribute("paragraphs", paragraphs);
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");
