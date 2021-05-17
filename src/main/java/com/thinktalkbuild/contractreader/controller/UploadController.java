@@ -37,6 +37,8 @@ public class UploadController {
             List<String> paragraphs = reader.parseParagraphs(text);
             model.addAttribute("raw", text); 
             model.addAttribute("paragraphs", paragraphs);
+            model.addAttribute("filename", file.getOriginalFilename());
+           
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");
