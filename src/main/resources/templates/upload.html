@@ -9,11 +9,10 @@
         <script defer src="controls.js"></script>
     </head>
     <body>
-        <div th:replace="fragments/header :: header">...</div>
+        <div th:replace="fragments/nav :: nav">...</div>
 
 
         <section class="container section">
-
 
             <h1 class="title">
                 Upload a contract 
@@ -54,11 +53,11 @@
 
                 </div>
 
-                <div class="columns is-centred">
-                    This software is provided AS IS without any warranty of any kind etc. etc.
-                </div>
+
             </div>
         </section>
+        
+        <div th:replace="fragments/footer :: footer">...</div>
 
 
     </body>
