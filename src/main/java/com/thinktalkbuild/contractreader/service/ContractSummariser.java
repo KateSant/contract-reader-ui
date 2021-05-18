@@ -1,5 +1,10 @@
 package com.thinktalkbuild.contractreader.service;
 
+import com.thinktalkbuild.contractreader.model.ContractSummary;
+import com.thinktalkbuild.contractreader.model.ContractSection;
+import com.thinktalkbuild.contractreader.model.SearchConfig;
+import com.thinktalkbuild.contractreader.model.SearchItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +14,7 @@ import java.util.List;
  */
 public class ContractSummariser {
 
-    public List<String> findParagraphsContainingAnyOfTheseWords(List<String> inputParagraphs, List<String> words) {
+    protected List<String> findParagraphsContainingAnyOfTheseWords(List<String> inputParagraphs, List<String> words) {
         List<String> outputParagraphs = new ArrayList<>();
         for (String paragraph : inputParagraphs) {
             if (containsOneOrMore(paragraph, words)) {

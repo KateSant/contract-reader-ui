@@ -2,6 +2,7 @@ package com.thinktalkbuild.contractreader.service;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,11 +51,8 @@ public class ContractSummariserTests {
     @Test
     void testFindParagraphsContainingTheseWords_findsSingleParaContainingTwoWordsButDoesNotDuplicate() {
 
-        List<String> words = new ArrayList<>();
-        words.add("no");
-        words.add("dragons");
 
-        List<String> output = summariser.findParagraphsContainingAnyOfTheseWords(inputParagraphs, words);
+        List<String> output = summariser.findParagraphsContainingAnyOfTheseWords(inputParagraphs, Arrays.asList(new String[]{"no", "dragons"}));
         assertEquals(output.size(), 1);
         assertTrue(output.get(0).contains("third paragraph"));
 

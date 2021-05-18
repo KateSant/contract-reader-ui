@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author kate
  */
-public class SummaryItem {
+public class ContractSection {
     
     private String title;
     
