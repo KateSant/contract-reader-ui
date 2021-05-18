@@ -9,6 +9,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.thinktalkbuild.contractreader.model.ContractSection;
+import com.thinktalkbuild.contractreader.model.SearchCriteria;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -51,10 +53,16 @@ public class ContractSummariserTests {
     @Test
     void testFindParagraphsContainingTheseWords_findsSingleParaContainingTwoWordsButDoesNotDuplicate() {
 
-
         List<String> output = summariser.findParagraphsContainingAnyOfTheseWords(inputParagraphs, Arrays.asList(new String[]{"no", "dragons"}));
         assertEquals(output.size(), 1);
         assertTrue(output.get(0).contains("third paragraph"));
+    }
+
+    @Test
+    void testGenerateSummarySection(){
+        SearchCriteria mockCriteria = new SearchCriteria("Title of this section", Collections.singletonList("apple"));
+        ContractSection result = summariser.generateSummarySection(inputParagraphs, mockCriteria);
+        assertEquals(result.getResultsParagraphs().size(), 2);
 
     }
 

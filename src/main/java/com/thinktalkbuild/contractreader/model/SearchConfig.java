@@ -7,14 +7,14 @@ import java.util.List;
 
 public class SearchConfig {
 
-    private List<SearchItem> searchItems = new ArrayList<>();
+    private List<SearchCriteria> searchCriteria = new ArrayList<>();
 
     public SearchConfig() { // TODO: read from yaml
-        searchItems.add(new SearchItem("Termination", Collections.singletonList("termination")));
-        searchItems.add(new SearchItem("Liability", Arrays.asList(new String[]{"liability", "liable"})));
+        searchCriteria.add(new SearchCriteria("Termination", Collections.singletonList("termination")));
+        searchCriteria.add(new SearchCriteria("Liability", Arrays.asList(new String[]{"liability", "liable"})));
     }
 
-    public List<SearchItem> getSearchSections() {
-        return searchItems;
+    public List<SearchCriteria> getSearchSections() {
+        return searchCriteria;
     }
 }
