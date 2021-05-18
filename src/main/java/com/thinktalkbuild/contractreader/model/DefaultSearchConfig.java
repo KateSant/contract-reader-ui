@@ -14,6 +14,10 @@ public class DefaultSearchConfig implements SearchConfig{
     public DefaultSearchConfig() { // TODO: read from yaml
         searchCriteria.add(new SearchCriteria("Termination", Collections.singletonList("termination")));
         searchCriteria.add(new SearchCriteria("Liability", Arrays.asList(new String[]{"liability", "liable"})));
+        searchCriteria.add(new SearchCriteria("Warranties", Arrays.asList(new String[]{"warrants", "warranty", "warranties"})));
+        searchCriteria.add(new SearchCriteria("Indemnities", Arrays.asList(new String[]{"indemnifies", "indemnity", "indemnities"})));
+        searchCriteria.add(new SearchCriteria("Price", Arrays.asList(new String[]{"charges", "fees", "price"})));
+        searchCriteria.add(new SearchCriteria("Licences", Arrays.asList(new String[]{"licence", "license", "assign"})));
     }
 
     public List<SearchCriteria> getSearchCriteria() {

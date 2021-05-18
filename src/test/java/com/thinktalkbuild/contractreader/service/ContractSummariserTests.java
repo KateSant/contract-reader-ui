@@ -28,8 +28,9 @@ public class ContractSummariserTests {
     @BeforeAll
     static void setup() {
         inputParagraphs.add("This is the first paragraph, it contains the word apple.");
-        inputParagraphs.add("This is the second paragraph, it contains the words apple and banana.");
+        inputParagraphs.add("This is the second paragraph, it contains the words apple and banana and cherry.");
         inputParagraphs.add("This is the third paragraph, it contains no fruit words since it is about dragons.");
+        inputParagraphs.add("This is the fourth paragraph, it contains the word Elderberry capitalised.");
     }
 
 
@@ -47,7 +48,6 @@ public class ContractSummariserTests {
         assertEquals(output.size(), 2);
         assertTrue(output.get(0).contains("first paragraph"));
         assertTrue(output.get(1).contains("second paragraph"));
-
     }
 
     @Test
@@ -56,6 +56,13 @@ public class ContractSummariserTests {
         List<String> output = summariser.findParagraphsContainingAnyOfTheseWords(inputParagraphs, Arrays.asList(new String[]{"no", "dragons"}));
         assertEquals(output.size(), 1);
         assertTrue(output.get(0).contains("third paragraph"));
+    }
+
+    @Test
+    void testFindParagraphsContainingTheseWords_isCaseInsensitive() {
+        List<String> output = summariser.findParagraphsContainingAnyOfTheseWords(inputParagraphs, Collections.singletonList("elderberry"));
+        assertEquals(output.size(), 1);
+        assertTrue(output.get(0).contains("fourth paragraph"));
     }
 
     @Test

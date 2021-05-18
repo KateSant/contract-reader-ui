@@ -4,6 +4,7 @@ import com.thinktalkbuild.contractreader.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +45,6 @@ public class ContractSummariser {
     }
 
     private boolean containsOneOrMore(String paragraph, List<String> words) {
-        return words.stream().anyMatch(word -> paragraph.contains(word));// return early, found one.  Possible future dev: continue searching e.g. to highlight all?
+        return words.stream().anyMatch(word -> paragraph.toLowerCase().contains(word.toLowerCase()));// return early, found one.  Possible future dev: continue searching e.g. to highlight all?
     }
 }
