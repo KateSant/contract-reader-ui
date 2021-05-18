@@ -1,5 +1,7 @@
 package com.thinktalkbuild.contractreader.controller;
 
+import com.thinktalkbuild.contractreader.model.ContractSummary;
+import com.thinktalkbuild.contractreader.service.ContractSummariser;
 import com.thinktalkbuild.contractreader.service.WordDocReader;
 import java.util.List;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -22,10 +24,13 @@ public class UploadController {
     
     @Autowired
     private WordDocReader reader;
+
+    @Autowired
+    private ContractSummariser summariser;
     
 
     @GetMapping("/")
-    public String greeting(Model model) {
+    public String index(Model model) {
         return "upload";
     }
 
@@ -38,6 +43,9 @@ public class UploadController {
             model.addAttribute("raw", text); 
             model.addAttribute("paragraphs", paragraphs);
             model.addAttribute("filename", file.getOriginalFilename());
+            ContractSummary summary = summariser.summarise(paragraphs);
+            model.addAttribute("summary", summary);
+
            
 
         } catch (Exception ex) {

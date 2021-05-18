@@ -59,12 +59,17 @@ public class ContractSummariserTests {
     }
 
     @Test
-    void testGenerateSummarySection(){
-        SearchCriteria mockCriteria = new SearchCriteria("Title of this section", Collections.singletonList("apple"));
+    void testGenerateSummarySection_hasCorrectParagraphs(){
+        SearchCriteria mockCriteria = new SearchCriteria("", Collections.singletonList("apple"));
         ContractSection result = summariser.generateSummarySection(inputParagraphs, mockCriteria);
         assertEquals(result.getResultsParagraphs().size(), 2);
-
     }
 
+    @Test
+    void testGenerateSummarySection_hasTitle(){
+        SearchCriteria mockCriteria = new SearchCriteria("Mock Title", Collections.emptyList());
+        ContractSection result = summariser.generateSummarySection(inputParagraphs, mockCriteria);
+        assertEquals(result.getTitle(), "Mock Title");
+    }
 
 }
