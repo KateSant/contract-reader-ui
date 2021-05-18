@@ -9,17 +9,17 @@ import java.util.List;
  */
 public class ContractSummariser {
 
-    public List<String> findParagraphsContainingTheseWords(List<String> inputParagraphs, List<String> words) {
+    public List<String> findParagraphsContainingAnyOfTheseWords(List<String> inputParagraphs, List<String> words) {
         List<String> outputParagraphs = new ArrayList<>();
         for (String paragraph : inputParagraphs) {
-            if (containsOneOrMoreOfTheseWords(paragraph, words)) {
+            if (containsOneOrMore(paragraph, words)) {
                 outputParagraphs.add(paragraph);
             }
         }
         return outputParagraphs;
     }
 
-    private boolean containsOneOrMoreOfTheseWords(String paragraph, List<String> words) {
+    private boolean containsOneOrMore(String paragraph, List<String> words) {
         for (String word : words) {
             if (paragraph.contains(word)) {
                 return true; // return early, found one.  Possible future dev: continue searching e.g. to highlight all?
