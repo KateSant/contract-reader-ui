@@ -46,8 +46,6 @@ public class UploadController {
             ContractSummary summary = summariser.summarise(paragraphs);
             model.addAttribute("summary", summary);
 
-           
-
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");
 

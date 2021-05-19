@@ -10,7 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.thinktalkbuild.contractreader.model.ContractSection;
+import com.thinktalkbuild.contractreader.model.DefaultSearchConfig;
 import com.thinktalkbuild.contractreader.model.SearchCriteria;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -20,7 +23,12 @@ import org.junit.jupiter.api.Test;
 public class ContractSummariserTests {
 
 
-    private ContractSummariser summariser = new ContractSummariser();
+    private ContractSummariser summariser;
+
+    @BeforeEach
+    void setup(){
+        summariser = new ContractSummariser(new DefaultSearchConfig(), new Highlighter());
+    }
 
     static List<String> DUMMY_INPUT_DATA = new ArrayList<>(List.of(
             "This is the first paragraph, it contains the word apple.",

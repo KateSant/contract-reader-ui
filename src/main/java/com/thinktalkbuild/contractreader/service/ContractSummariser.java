@@ -1,6 +1,7 @@
 package com.thinktalkbuild.contractreader.service;
 
 import com.thinktalkbuild.contractreader.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class ContractSummariser {
 
-    private SearchConfig config = new DefaultSearchConfig(); // TODO autowire
-    private Highlighter highligher = new Highlighter();
 
+    private SearchConfig config;
+    private Highlighter highligher;
+
+    @Autowired
+    ContractSummariser(SearchConfig config, Highlighter highligher){
+        this.config=config;
+        this.highligher=highligher;
+    }
 
     public ContractSummary summarise(List<String> inputParagraphs){
 
