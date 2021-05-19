@@ -25,9 +25,8 @@
             <nav class="tabs is-boxed ">
                 <div class="container">
                     <ul>
-                        <li class="tab is-active" onclick="openTab(event, 'raw')"><a>Raw</a></li>
-                        <li class="tab" onclick="openTab(event, 'paragraphs')"><a>Paragraphs</a></li>
-                        <li class="tab" onclick="openTab(event, 'summary')"><a>Summary</a></li>
+                        <li class="tab is-active" onclick="openTab(event, 'summary')"><a>Summary</a></li>
+                        <li class="tab" onclick="openTab(event, 'raw')"><a>Raw</a></li>
 
                     </ul>
                 </div>
@@ -35,20 +34,10 @@
 
 
             <div class="container section">
-                <div id="raw" class="content-tab" >
-                    <pre><div th:text="${raw}"/></pre>
-                </div>
 
-                <div id="paragraphs" class="content-tab" style="display:none">
 
-                    <div th:each="paragraph : ${paragraphs}">
-                        <p th:text="${paragraph}" />
-                        <br/>
-                    </div>
-                </div>
 
-                <div id="summary" class="content-tab" style="display:none">
-
+                <div id="summary" class="content-tab" >
                     <div th:each="section : ${summary.sections}">
                         <h2 class="subtitle" th:text="${section.title}"/>
                         <div th:each="paragraph : ${section.resultsParagraphs}">
@@ -56,9 +45,11 @@
                             <br/>
                         </div>
                         <hr/>
-
-
                     </div>
+                </div>
+
+                <div id="raw" class="content-tab" style="display:none">
+                    <pre><div th:text="${raw}"/></pre>
                 </div>
 
             </div>
