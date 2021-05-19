@@ -1,17 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contract Reader</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script defer src="controls.js"></script>
-    <link rel="stylesheet" href="style.css">
-
-</head>
+<head th:replace="fragments/head :: head"></head>
 <body>
-<div th:replace="fragments/nav :: nav">...</div>
+<div th:replace="fragments/nav :: nav"></div>
 
 <section class="container section">
 
@@ -50,7 +41,7 @@
     </nav>
 </section>
 
-<div th:replace="fragments/footer :: footer">...</div>
+<div th:replace="fragments/footer :: footer"></div>
 
 
 </body>
