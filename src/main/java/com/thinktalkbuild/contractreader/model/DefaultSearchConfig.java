@@ -18,6 +18,7 @@ public class DefaultSearchConfig implements SearchConfig{
         searchCriteria.add(new SearchCriteria("Indemnities", Arrays.asList(new String[]{"indemnifies", "indemnity", "indemnities"})));
         searchCriteria.add(new SearchCriteria("Price", Arrays.asList(new String[]{"charges", "fees", "price"})));
         searchCriteria.add(new SearchCriteria("Licences", Arrays.asList(new String[]{"licence", "license", "assign"})));
+        searchCriteria.add(new SearchCriteria("Consents", Arrays.asList(new String[]{"consent", "approve", "approval"})));
     }
 
     public List<SearchCriteria> getSearchCriteria() {

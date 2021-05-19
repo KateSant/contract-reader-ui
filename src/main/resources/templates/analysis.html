@@ -39,7 +39,7 @@
             <div th:each="section : ${summary.sections}">
                 <h2 class="subtitle" th:text="${section.title}"/>
                 <nav class="panel contract-snippet">
-                    <div th:each="paragraph : ${section.resultsParagraphs}" >
+                    <div th:each="paragraph : ${section.resultsParagraphs}">
                         <p th:utext="${paragraph}"/><br/>
                     </div>
                 </nav>
