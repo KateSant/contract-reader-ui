@@ -14,14 +14,9 @@ import java.util.stream.Collectors;
 @Service
 public class ContractSummariser {
 
-    private SearchConfig config;
+    private SearchConfig config = new DefaultSearchConfig(); // TODO autowire
+    private Highlighter highligher = new Highlighter();
 
-    public ContractSummariser(){
-        config = new DefaultSearchConfig();
-    }
-    public ContractSummariser(SearchConfig config){
-        this.config = config;
-    }
 
     public ContractSummary summarise(List<String> inputParagraphs){
 
@@ -34,8 +29,9 @@ public class ContractSummariser {
 
     }
     public ContractSection generateSummarySection(List<String> inputParagraphs, SearchCriteria searchCriteria){
-        List<String> outputParagraphs = findParagraphsContainingAnyOfTheseWords(inputParagraphs, searchCriteria.getWordsToSearchFor());
-        return new ContractSection(searchCriteria.getTitle(), outputParagraphs);
+        List<String> interestingParagraphs = findParagraphsContainingAnyOfTheseWords(inputParagraphs, searchCriteria.getWordsToSearchFor());
+        List<String> highlightedParagraphs = highligher.highlight(interestingParagraphs, searchCriteria.getWordsToSearchFor());
+        return new ContractSection(searchCriteria.getTitle(), highlightedParagraphs);
     }
 
     protected List<String> findParagraphsContainingAnyOfTheseWords(List<String> inputParagraphs, List<String> words) {
