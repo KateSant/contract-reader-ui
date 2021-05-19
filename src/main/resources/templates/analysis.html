@@ -17,7 +17,7 @@
     <h1 class="title">
         Analysis
     </h1>
-    <div>File: <span style="font-style: italic;" th:text="${filename}"/></div>
+    <div>File: <span class="filename" th:text="${filename}"/></div>
     <br/>
     <div class="is-error" th:text="${errormessage}"/>
 
@@ -38,7 +38,7 @@
         <div id="summary" class="content-tab">
             <div th:each="section : ${summary.sections}">
                 <h2 class="subtitle" th:text="${section.title}"/>
-                <nav class="panel" style="font-family: Georgia, serif; padding: 10px">
+                <nav class="panel contract-snippet">
                     <div th:each="paragraph : ${section.resultsParagraphs}" >
                         <p th:utext="${paragraph}"/><br/>
                     </div>
