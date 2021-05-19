@@ -1,61 +1,59 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Contract Reader</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-        <script defer src="controls.js"></script>
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contract Reader</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script defer src="controls.js"></script>
+</head>
+<body>
 
-        <div th:replace="fragments/nav :: nav">...</div>
-        <section class="container section">
+<div th:replace="fragments/nav :: nav">...</div>
+<section class="container section">
 
-            <h1 class="title">
-                Analysis 
-            </h1>
-            <div>File: <span th:text="${filename}"/> </div>
-            <br/>
-            <div class="is-error" th:text="${errormessage}" />
-
-
-
-            <nav class="tabs is-boxed ">
-                <div class="container">
-                    <ul>
-                        <li class="tab is-active" onclick="openTab(event, 'summary')"><a>Summary</a></li>
-                        <li class="tab" onclick="openTab(event, 'raw')"><a>Raw</a></li>
-
-                    </ul>
-                </div>
-            </nav>
+    <h1 class="title">
+        Analysis
+    </h1>
+    <div>File: <span style="font-style: italic;" th:text="${filename}"/></div>
+    <br/>
+    <div class="is-error" th:text="${errormessage}"/>
 
 
-            <div class="container section">
+    <nav class="tabs is-boxed ">
+        <div class="container">
+            <ul>
+                <li class="tab is-active" onclick="openTab(event, 'summary')"><a>Summary</a></li>
+                <li class="tab" onclick="openTab(event, 'raw')"><a>Raw</a></li>
+
+            </ul>
+        </div>
+    </nav>
 
 
+    <div class="container">
 
-                <div id="summary" class="content-tab" >
-                    <div th:each="section : ${summary.sections}">
-                        <h2 class="subtitle" th:text="${section.title}"/>
-                        <div th:each="paragraph : ${section.resultsParagraphs}">
-                            <p th:text="${paragraph}"/>
-                            <br/>
-                        </div>
-                        <hr/>
+        <div id="summary" class="content-tab">
+            <div th:each="section : ${summary.sections}">
+                <h2 class="subtitle" th:text="${section.title}"/>
+                <nav class="panel" style="font-family: Georgia, serif; padding: 10px">
+                    <div th:each="paragraph : ${section.resultsParagraphs}" >
+                        <p th:text="${paragraph}"/><br/>
                     </div>
-                </div>
-
-                <div id="raw" class="content-tab" style="display:none">
-                    <pre><div th:text="${raw}"/></pre>
-                </div>
-
+                </nav>
+                <br/>
             </div>
         </div>
-    </section>
-    <div th:replace="fragments/footer :: footer">...</div>
+
+        <div id="raw" class="content-tab" style="display:none">
+            <pre><div th:text="${raw}"/></pre>
+        </div>
+
+    </div>
+    </div>
+</section>
+<div th:replace="fragments/footer :: footer">...</div>
 
 </body>
 </html>
