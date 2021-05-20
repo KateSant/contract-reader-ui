@@ -7,12 +7,12 @@ public class ContractSummary {
 
     // todo - some metadata here? e.g. filename, date of processing?
 
-    private List<ContractSection> sections = new ArrayList<>();
-    public void addSection(ContractSection s){
+    private List<ContractSummarySection> sections = new ArrayList<>();
+    public void addSection(ContractSummarySection s){
         sections.add(s);
     }
 
-    public List<ContractSection> getSections() {
+    public List<ContractSummarySection> getSections() {
         return sections;
     }
 }

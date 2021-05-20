@@ -29,16 +29,16 @@ public class ContractSummariser {
 
         ContractSummary summary = new ContractSummary();
         config.getSections().stream().forEach(sc -> {
-            ContractSection section = generateSummarySection(inputParagraphs, sc);
+            ContractSummarySection section = generateSummarySection(inputParagraphs, sc);
             summary.addSection(section);
         });
         return summary;
 
     }
-    public ContractSection generateSummarySection(List<String> inputParagraphs, ContractSummaryConfig.Section section){
+    public ContractSummarySection generateSummarySection(List<String> inputParagraphs, ContractSummaryConfig.Section section){
         List<String> interestingParagraphs = findParagraphsContainingAnyOfTheseWords(inputParagraphs, section.getSearchWords());
         List<String> highlightedParagraphs = highligher.highlight(interestingParagraphs, section.getSearchWords());
-        return new ContractSection(section.getTitle(), highlightedParagraphs);
+        return new ContractSummarySection(section.getTitle(), highlightedParagraphs);
     }
 
     protected List<String> findParagraphsContainingAnyOfTheseWords(List<String> inputParagraphs, List<String> words) {

@@ -7,13 +7,13 @@ import java.util.List;
  *
  * @author kate
  */
-public class ContractSection {
+public class ContractSummarySection {
     
     private String title;
     
     private List<String> resultsParagraphs = new ArrayList<>();
 
-    public ContractSection(String title, List<String> resultsParagraphs) {
+    public ContractSummarySection(String title, List<String> resultsParagraphs) {
         this.title = title;
         this.resultsParagraphs = resultsParagraphs;
     }
