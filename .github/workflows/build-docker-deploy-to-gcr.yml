@@ -2,8 +2,7 @@ name: Build and Deploy to GCR
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
+  
 
 env:
   PROJECT_ID: contract-reader
@@ -44,3 +43,9 @@ jobs:
     - name: Publish
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+        
+    # Deploy the image to Google Cloud Run
+    - name: Deploy
+      run: |-
+        gcloud run deploy contract-reader --region europe-west4 --project contract-reader --image gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA --platform managed
+
