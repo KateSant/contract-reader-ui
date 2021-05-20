@@ -8,11 +8,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.thinktalkbuild.contractreader.model.ContractSection;
-import com.thinktalkbuild.contractreader.model.DefaultSearchConfig;
-import com.thinktalkbuild.contractreader.model.SearchCriteria;
-import org.junit.jupiter.api.BeforeAll;
+import com.thinktalkbuild.contractreader.model.config.ContractSummaryConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +24,7 @@ public class ContractSummariserTests {
 
     @BeforeEach
     void setup(){
-        summariser = new ContractSummariser(new DefaultSearchConfig(), new Highlighter());
+        summariser = new ContractSummariser(new Highlighter(), null);
     }
 
     static List<String> DUMMY_INPUT_DATA = new ArrayList<>(List.of(
@@ -70,15 +67,15 @@ public class ContractSummariserTests {
 
     @Test
     void testGenerateSummarySection_hasCorrectParagraphs(){
-        SearchCriteria mockCriteria = new SearchCriteria("", Collections.singletonList("apple"));
-        ContractSection result = summariser.generateSummarySection(DUMMY_INPUT_DATA, mockCriteria);
+        ContractSummaryConfig.Section mockSection = new ContractSummaryConfig.Section("", Collections.singletonList("apple"));
+        ContractSection result = summariser.generateSummarySection(DUMMY_INPUT_DATA, mockSection);
         assertEquals(result.getResultsParagraphs().size(), 2);
     }
 
     @Test
     void testGenerateSummarySection_hasTitle(){
-        SearchCriteria mockCriteria = new SearchCriteria("Mock Title", Collections.emptyList());
-        ContractSection result = summariser.generateSummarySection(DUMMY_INPUT_DATA, mockCriteria);
+        ContractSummaryConfig.Section mockSection = new ContractSummaryConfig.Section("Mock Title", Collections.emptyList());
+        ContractSection result = summariser.generateSummarySection(DUMMY_INPUT_DATA, mockSection);
         assertEquals(result.getTitle(), "Mock Title");
     }
 

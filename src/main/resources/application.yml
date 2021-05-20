@@ -1,0 +1,37 @@
+contract-summary:
+  sections:
+    - title: Termination
+      search-words:
+        - termination
+        - terminate
+        - terminates
+    - title: Liability
+      search-words:
+        - liability
+        - liable
+    - title: Warranties
+      search-words:
+        - warrants
+        - warranty
+        - warranties
+    - title: Indemnities
+      search-words:
+        - indemnifies
+        - indemnity
+        - indemnities
+    - title: Price
+      search-words:
+        - charges
+        - fees
+        - price
+    - title: Licences
+      search-words:
+        - licence
+        - license
+        - assign
+        - assigns
+    - title: Consent
+      search-words:
+        - consent
+        - approve
+        - approval

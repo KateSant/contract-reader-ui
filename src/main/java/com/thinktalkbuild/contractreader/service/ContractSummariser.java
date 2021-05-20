@@ -1,11 +1,11 @@
 package com.thinktalkbuild.contractreader.service;
 
 import com.thinktalkbuild.contractreader.model.*;
+import com.thinktalkbuild.contractreader.model.config.ContractSummaryConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -15,30 +15,30 @@ import java.util.stream.Collectors;
 @Service
 public class ContractSummariser {
 
-
-    private SearchConfig config;
     private Highlighter highligher;
+    private ContractSummaryConfig config;
 
     @Autowired
-    ContractSummariser(SearchConfig config, Highlighter highligher){
-        this.config=config;
+    ContractSummariser(Highlighter highligher, ContractSummaryConfig config){
         this.highligher=highligher;
+        this.config = config;
+
     }
 
     public ContractSummary summarise(List<String> inputParagraphs){
 
         ContractSummary summary = new ContractSummary();
-        config.getSearchCriteria().stream().forEach(sc -> {
+        config.getSections().stream().forEach(sc -> {
             ContractSection section = generateSummarySection(inputParagraphs, sc);
             summary.addSection(section);
         });
         return summary;
 
     }
-    public ContractSection generateSummarySection(List<String> inputParagraphs, SearchCriteria searchCriteria){
-        List<String> interestingParagraphs = findParagraphsContainingAnyOfTheseWords(inputParagraphs, searchCriteria.getWordsToSearchFor());
-        List<String> highlightedParagraphs = highligher.highlight(interestingParagraphs, searchCriteria.getWordsToSearchFor());
-        return new ContractSection(searchCriteria.getTitle(), highlightedParagraphs);
+    public ContractSection generateSummarySection(List<String> inputParagraphs, ContractSummaryConfig.Section section){
+        List<String> interestingParagraphs = findParagraphsContainingAnyOfTheseWords(inputParagraphs, section.getSearchWords());
+        List<String> highlightedParagraphs = highligher.highlight(interestingParagraphs, section.getSearchWords());
+        return new ContractSection(section.getTitle(), highlightedParagraphs);
     }
 
     protected List<String> findParagraphsContainingAnyOfTheseWords(List<String> inputParagraphs, List<String> words) {
