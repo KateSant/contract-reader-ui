@@ -1,4 +1,4 @@
-name: Build and Deploy to GCR
+name: Deploy to GCR
 
 on:
   workflow_dispatch:
