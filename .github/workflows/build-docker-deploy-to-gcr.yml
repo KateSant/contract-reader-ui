@@ -1,4 +1,4 @@
-name: Deploy to GCR
+name: Deploy to GCP
 
 on:
   workflow_dispatch:
