@@ -1,7 +1,6 @@
 name: Build and Deploy to GCR
 
 on:
-  on:
   workflow_dispatch:
 
 env:
