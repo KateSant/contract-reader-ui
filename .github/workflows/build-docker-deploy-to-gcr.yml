@@ -3,6 +3,7 @@ name: Deploy to GCR
 on:
   workflow_dispatch:
   push: 
+    branches: [ deploy ]
   
 
 env:
