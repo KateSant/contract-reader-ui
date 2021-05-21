@@ -24,15 +24,19 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class UploadController {
-    
-    @Autowired
+
     private WordDocReader reader;
 
-    @Autowired
     private ContractSummariser summariser;
 
-    @Autowired
     private ObligationsFinder obligationsFinder;
+
+    @Autowired
+    public UploadController(WordDocReader reader, ContractSummariser summariser, ObligationsFinder obligationsFinder){
+        this.reader=reader;
+        this.summariser=summariser;
+        this.obligationsFinder=obligationsFinder;
+    }
     
 
     @GetMapping("/")
