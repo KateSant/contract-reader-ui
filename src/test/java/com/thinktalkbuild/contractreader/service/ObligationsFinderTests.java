@@ -2,6 +2,7 @@ package com.thinktalkbuild.contractreader.service;
 
 
 import com.thinktalkbuild.contractreader.model.Obligation;
+import com.thinktalkbuild.contractreader.model.ObligationsByParty;
 import com.thinktalkbuild.contractreader.model.config.ObligationsConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,8 +72,8 @@ public class ObligationsFinderTests {
 
     @Test
     void testFindsObligationsInParagraphs() {
-        List<Obligation> obligations = obligationsFinder.findObligations(LIST_OF_PARAGRAPHS);
-        assertEquals(obligations.size(),4);
+        ObligationsByParty obligationsByParty = obligationsFinder.findObligations(LIST_OF_PARAGRAPHS);
+        assertEquals(obligationsByParty.getRawObligations().size(),4);
     }
 
 

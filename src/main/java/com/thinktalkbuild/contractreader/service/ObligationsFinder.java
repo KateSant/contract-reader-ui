@@ -1,6 +1,7 @@
 package com.thinktalkbuild.contractreader.service;
 
 import com.thinktalkbuild.contractreader.model.Obligation;
+import com.thinktalkbuild.contractreader.model.ObligationsByParty;
 import com.thinktalkbuild.contractreader.model.config.ObligationsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,12 @@ public class ObligationsFinder {
         pattern = Pattern.compile(regexWithVerbs);
     }
 
-    public List<Obligation> findObligations(List<String> inputParagraphs) {
+    public ObligationsByParty findObligations(List<String> inputParagraphs) {
         List<Obligation> obligations = new ArrayList<>();
         inputParagraphs.stream().forEach(para -> {
             obligations.addAll(findObligations(para));
         });
-        return obligations;
+        return new ObligationsByParty(obligations);
     }
 
     protected List<Obligation> findObligations(String inputParagraph) {

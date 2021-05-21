@@ -35,15 +35,19 @@
                     <div th:each="paragraph : ${section.resultsParagraphs}">
                         <p th:utext="${paragraph}"/><br/>
                     </div>
-                </nav>
-                <br/>
+                </nav><br/>
+
             </div>
         </div>
 
         <div id="obligations" class="content-tab">
-            <div th:each="obligation : ${obligations}">
-                <p th:utext="${obligation.wholeSentenceHighlighted}"/><br/>
-                <br/>
+            <div th:each="mapEntry : ${obligationsByParty.sortedObligations}">
+                <h2 class="subtitle" th:text="${mapEntry.key}"/>
+                <nav class="panel contract-snippet">
+                    <div th:each="obligation : ${mapEntry.value}">
+                    <p th:utext="${obligation.wholeSentenceHighlighted}"/><br/>
+                </div>
+                </nav><br/>
             </div>
         </div>
 

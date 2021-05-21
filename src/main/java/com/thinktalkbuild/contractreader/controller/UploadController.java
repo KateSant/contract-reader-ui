@@ -2,6 +2,7 @@ package com.thinktalkbuild.contractreader.controller;
 
 import com.thinktalkbuild.contractreader.model.ContractSummary;
 import com.thinktalkbuild.contractreader.model.Obligation;
+import com.thinktalkbuild.contractreader.model.ObligationsByParty;
 import com.thinktalkbuild.contractreader.service.ContractSummariser;
 import com.thinktalkbuild.contractreader.service.ObligationsFinder;
 import com.thinktalkbuild.contractreader.service.WordDocReader;
@@ -49,8 +50,8 @@ public class UploadController {
             model.addAttribute("filename", file.getOriginalFilename());
             ContractSummary summary = summariser.summarise(paragraphs);
             model.addAttribute("summary", summary);
-            List<Obligation> obligations = obligationsFinder.findObligations(paragraphs);
-            model.addAttribute("obligations", obligations);
+            ObligationsByParty obligationsByParty = obligationsFinder.findObligations(paragraphs);
+            model.addAttribute("obligationsByParty", obligationsByParty);
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");
