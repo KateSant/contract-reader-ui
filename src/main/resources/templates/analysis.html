@@ -18,6 +18,7 @@
         <div class="container">
             <ul>
                 <li class="tab is-active" onclick="openTab(event, 'summary')"><a>Summary</a></li>
+                <li class="tab " onclick="openTab(event, 'obligations')"><a>Obligations</a></li>
                 <li class="tab" onclick="openTab(event, 'raw')"><a>Raw</a></li>
 
             </ul>
@@ -35,6 +36,13 @@
                         <p th:utext="${paragraph}"/><br/>
                     </div>
                 </nav>
+                <br/>
+            </div>
+        </div>
+
+        <div id="obligations" class="content-tab">
+            <div th:each="obligation : ${obligations}">
+                <p th:utext="${obligation.wholeSentence}"/><br/>
                 <br/>
             </div>
         </div>

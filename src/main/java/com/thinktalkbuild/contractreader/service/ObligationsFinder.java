@@ -38,13 +38,12 @@ public class ObligationsFinder {
     @Autowired
     public ObligationsFinder(ObligationsConfig obligationsConfig){
         this.obligationsConfig=obligationsConfig;
-
         String obligingVerbsJoined = String.join("|", obligationsConfig.getObligingVerbs());
         String regexWithVerbs = regex.replaceAll(OBLIGING_VERBS_PLACEHOLDER,obligingVerbsJoined);
         pattern = Pattern.compile(regexWithVerbs);
     }
 
-    protected List<Obligation> findObligations(List<String> inputParagraphs) {
+    public List<Obligation> findObligations(List<String> inputParagraphs) {
         List<Obligation> obligations = new ArrayList<>();
         inputParagraphs.stream().forEach(para -> {
             obligations.addAll(findObligations(para));
