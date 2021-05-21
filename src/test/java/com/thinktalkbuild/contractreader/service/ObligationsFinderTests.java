@@ -2,6 +2,8 @@ package com.thinktalkbuild.contractreader.service;
 
 
 import com.thinktalkbuild.contractreader.model.Obligation;
+import com.thinktalkbuild.contractreader.model.config.ObligationsConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ObligationsFinderTests {
 
-    private ObligationsFinder obligationsFinder= new ObligationsFinder();
+    private ObligationsFinder obligationsFinder;
+
+    @BeforeEach
+    void setup(){
+        ObligationsConfig mockConfig = new ObligationsConfig();
+        mockConfig.setObligingVerbs(List.of("shall", "must"));
+        obligationsFinder = new ObligationsFinder(mockConfig);
+    }
 
     static String PARAGRAPH_WITH_3_OBLIGATIONS = "This is the first sentence, it says that The Supplier must sit down.  This is the second sentence, it says that a Supplier must also stand up.  " +
             "This is the third sentence in the paragraph, it says that The Customer shall do a hand stand.";

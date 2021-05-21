@@ -1,3 +1,8 @@
+obligations:
+  obliging-verbs:
+    - shall
+    - must
+
 contract-summary:
   sections:
     - title: Termination

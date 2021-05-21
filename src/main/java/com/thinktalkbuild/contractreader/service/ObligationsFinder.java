@@ -1,6 +1,8 @@
 package com.thinktalkbuild.contractreader.service;
 
 import com.thinktalkbuild.contractreader.model.Obligation;
+import com.thinktalkbuild.contractreader.model.config.ObligationsConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,22 +17,32 @@ import java.util.regex.Pattern;
 @Service
 public class ObligationsFinder {
 
-    public static List<String> OBLIGING_VERBS_LIST = new ArrayList<>(List.of("shall", "must"));
-    public static String OBLIGING_VERBS = String.join("|", OBLIGING_VERBS_LIST);
+
     public static String PARTY = "[^\\s]+"; // The party.   A word.  (Any character other than space, 1 or more times.)
     public static String SPACE = " ";
-
+    public static String OBLIGING_VERBS_PLACEHOLDER="OBLIGING_VERBS_PLACEHOLDER"; // this will be substituted at runtime because it comes from yaml config.
     public static String regex = ".*?" // The beginning of the sentence (zero or more any character, non greedy match)
                                 + "("+PARTY+")"
                                 + SPACE
-                                + "("+OBLIGING_VERBS+")" // (e.g. must|shall)
+                                + "("+OBLIGING_VERBS_PLACEHOLDER+")" // (e.g. must|shall)
                                 + SPACE
                                 +"(.+?)" // The action the party must do.  Possibly.  (zero or more any character, non-greedy match), up to...
-                                +"(\\.|(?="+PARTY+SPACE+"("+OBLIGING_VERBS+")))"; // The end of the sentence (full stop)  OR another party+space+obliging verb NB lookahead so don't consume it.
+                                +"(\\.|(?="+PARTY+SPACE+"("+OBLIGING_VERBS_PLACEHOLDER+")))"; // The end of the sentence (full stop)  OR another party+space+obliging verb - NB lookahead,don't consume it, since we want it in the next match.
 
 
-    public static Pattern pattern = Pattern.compile(regex);
 
+
+    private ObligationsConfig obligationsConfig;
+    private Pattern pattern;
+
+    @Autowired
+    public ObligationsFinder(ObligationsConfig obligationsConfig){
+        this.obligationsConfig=obligationsConfig;
+
+        String obligingVerbsJoined = String.join("|", obligationsConfig.getObligingVerbs());
+        String regexWithVerbs = regex.replaceAll(OBLIGING_VERBS_PLACEHOLDER,obligingVerbsJoined);
+        pattern = Pattern.compile(regexWithVerbs);
+    }
 
     protected List<Obligation> findObligations(List<String> inputParagraphs) {
         List<Obligation> obligations = new ArrayList<>();
