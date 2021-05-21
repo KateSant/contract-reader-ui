@@ -3,8 +3,9 @@ package com.thinktalkbuild.contractreader.model;
 public class Obligation {
 
     private String wholeSentence;
-    private String obligingVerb;
     private String party;
+    private String obligingVerb;
+    private String action;
 
     public String getWholeSentence() {
         return wholeSentence;
@@ -28,5 +29,13 @@ public class Obligation {
 
     public void setParty(String party) {
         this.party = party;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }
