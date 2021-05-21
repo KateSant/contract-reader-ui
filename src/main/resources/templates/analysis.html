@@ -42,7 +42,7 @@
 
         <div id="obligations" class="content-tab">
             <div th:each="obligation : ${obligations}">
-                <p th:utext="${obligation.wholeSentence}"/><br/>
+                <p th:utext="${obligation.wholeSentenceHighlighted}"/><br/>
                 <br/>
             </div>
         </div>

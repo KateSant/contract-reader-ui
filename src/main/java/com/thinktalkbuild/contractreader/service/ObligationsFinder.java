@@ -33,11 +33,13 @@ public class ObligationsFinder {
 
 
     private ObligationsConfig obligationsConfig;
+    private Highlighter highlighter;
     private Pattern pattern;
 
     @Autowired
-    public ObligationsFinder(ObligationsConfig obligationsConfig){
+    public ObligationsFinder(Highlighter highlighter, ObligationsConfig obligationsConfig){
         this.obligationsConfig=obligationsConfig;
+        this.highlighter=highlighter;
         String obligingVerbsJoined = String.join("|", obligationsConfig.getObligingVerbs());
         String regexWithVerbs = regex.replaceAll(OBLIGING_VERBS_PLACEHOLDER,obligingVerbsJoined);
         pattern = Pattern.compile(regexWithVerbs);
@@ -55,13 +57,16 @@ public class ObligationsFinder {
         List<Obligation> obligations = new ArrayList<>();
         Matcher matcher = pattern.matcher(inputParagraph);
         while (matcher.find()) {
-            System.out.println("regex="+regex);
-            System.out.println("0="+ matcher.group(0)+" 1="+matcher.group(1)+" 2="+matcher.group(2)+" 3="+matcher.group(3));
             Obligation obl = new Obligation();
             obl.setWholeSentence(matcher.group(0));
             obl.setParty(matcher.group(1));
             obl.setObligingVerb(matcher.group(2));
             obl.setAction(matcher.group(3));
+            String highlighted = highlighter.highlight(obl.getWholeSentence(), List.of(
+                    obl.getObligingVerb(),
+                    obl.getAction()
+                    ));
+            obl.setWholeSentenceHighlighted(highlighted);
             obligations.add(obl);
         }
 

@@ -23,7 +23,7 @@ public class ObligationsFinderTests {
     void setup(){
         ObligationsConfig mockConfig = new ObligationsConfig();
         mockConfig.setObligingVerbs(List.of("shall", "must"));
-        obligationsFinder = new ObligationsFinder(mockConfig);
+        obligationsFinder = new ObligationsFinder(new Highlighter(), mockConfig);
     }
 
     static String PARAGRAPH_WITH_3_OBLIGATIONS = "This is the first sentence, it says that The Supplier must sit down.  This is the second sentence, it says that a Supplier must also stand up.  " +

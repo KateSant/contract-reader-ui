@@ -7,6 +7,8 @@ public class Obligation {
     private String obligingVerb;
     private String action;
 
+    private String wholeSentenceHighlighted;
+
     public String getWholeSentence() {
         return wholeSentence;
     }
@@ -37,5 +39,13 @@ public class Obligation {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public String getWholeSentenceHighlighted() {
+        return wholeSentenceHighlighted;
+    }
+
+    public void setWholeSentenceHighlighted(String wholeSentenceHighlighted) {
+        this.wholeSentenceHighlighted = wholeSentenceHighlighted;
     }
 }
