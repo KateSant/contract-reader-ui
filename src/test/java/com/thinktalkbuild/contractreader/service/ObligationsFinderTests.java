@@ -54,7 +54,9 @@ public class ObligationsFinderTests {
     @Test
     void testFindObligations_finds_multiple_obligations_in_sentence() {
         List<Obligation> obligations =  obligationsFinder.findObligations(SENTENCE_WITH_2_OBLGATIONS);
-        assertEquals(obligations.size(),3);
+        assertEquals(obligations.size(),2);
+        assertTrue(obligations.get(0).getAction().contains("pay the money"));
+        assertTrue(obligations.get(1).getAction().contains("provide the service"));
     }
 
 

@@ -15,17 +15,21 @@ import java.util.regex.Pattern;
 @Service
 public class ObligationsFinder {
 
-    public static List<String> OBLIGING_VERBS = new ArrayList<>(List.of("shall", "must"));
+    public static List<String> OBLIGING_VERBS_LIST = new ArrayList<>(List.of("shall", "must"));
+    public static String OBLIGING_VERBS = String.join("|", OBLIGING_VERBS_LIST);
+    public static String PARTY = "[^\\s]+"; // The party.   A word.  (Any character other than space, 1 or more times.)
+    public static String SPACE = " ";
+
     public static String regex = ".*?" // The beginning of the sentence (zero or more any character, non greedy match)
-                                + "([^\\s]+)" // The party.   A word.  (Any character other than space, 1 or more times.)
-                                + " " // A space
-                                + "(%s)" // obliging verb (e.g. must|shall) is inserted here later
-                                + " " // A space
-                                +"(.+?)" // The end of the sentence (zero or more any character, non-greedy match).  The action the party must do.  Possibly.
-                                +"(\\.|%s)"; // A full stop, or another obliging verb
-    public static String obligingVerbsAlternates = String.join("|", OBLIGING_VERBS);
-    public static String regexWithVerb = String.format(regex, obligingVerbsAlternates, obligingVerbsAlternates);
-    public static Pattern pattern = Pattern.compile(regexWithVerb, Pattern.CASE_INSENSITIVE);
+                                + "("+PARTY+")"
+                                + SPACE
+                                + "("+OBLIGING_VERBS+")" // (e.g. must|shall)
+                                + SPACE
+                                +"(.+?)" // The action the party must do.  Possibly.  (zero or more any character, non-greedy match), up to...
+                                +"(\\.|(?="+PARTY+SPACE+"("+OBLIGING_VERBS+")))"; // The end of the sentence (full stop)  OR another party+space+obliging verb NB lookahead so don't consume it.
+
+
+    public static Pattern pattern = Pattern.compile(regex);
 
 
     protected List<Obligation> findObligations(List<String> inputParagraphs) {
@@ -40,6 +44,7 @@ public class ObligationsFinder {
         List<Obligation> obligations = new ArrayList<>();
         Matcher matcher = pattern.matcher(inputParagraph);
         while (matcher.find()) {
+            System.out.println("regex="+regex);
             System.out.println("0="+ matcher.group(0)+" 1="+matcher.group(1)+" 2="+matcher.group(2)+" 3="+matcher.group(3));
             Obligation obl = new Obligation();
             obl.setWholeSentence(matcher.group(0));
