@@ -2,6 +2,10 @@ obligations:
   obliging-verbs:
     - shall
     - must
+  non-parties:
+    - agreement
+    - addendum
+    - variation
 
 contract-summary:
   sections:

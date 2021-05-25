@@ -11,6 +11,8 @@ public class ObligationsConfig {
 
     private List<String> obligingVerbs;
 
+    private List<String> nonParties;
+
     public List<String> getObligingVerbs() {
         return obligingVerbs;
     }
@@ -20,4 +22,11 @@ public class ObligationsConfig {
         this.obligingVerbs = obligingVerbs;
     }
 
+    public List<String> getNonParties() {
+        return nonParties;
+    }
+
+    public void setNonParties(List<String> nonParties) {
+        this.nonParties = nonParties;
+    }
 }

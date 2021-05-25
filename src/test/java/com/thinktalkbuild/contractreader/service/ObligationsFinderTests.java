@@ -8,7 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +26,7 @@ public class ObligationsFinderTests {
     void setup(){
         ObligationsConfig mockConfig = new ObligationsConfig();
         mockConfig.setObligingVerbs(List.of("shall", "must"));
+        mockConfig.setNonParties(List.of("agreement", "addendum"));
         obligationsFinder = new ObligationsFinder(new Highlighter(), mockConfig);
     }
 
@@ -36,10 +39,12 @@ public class ObligationsFinderTests {
 
     static String SENTENCE_WITH_2_OBLGATIONS="The Customer must pay the money and the Supplier must provide the service.";
 
+    static String SENTENCE_WITH_NON_PARTIES="This Agreement shall remain in force for 2 years. The Supplier shall do something.";
+
     @Test
     void testFindObligations_finds_must() {
 
-        List<Obligation> obligations =  obligationsFinder.findObligations(PARAGRAPH_WITH_3_OBLIGATIONS);
+        List<Obligation> obligations =  obligationsFinder.findObligationsInParagraph(PARAGRAPH_WITH_3_OBLIGATIONS);
         assertTrue(obligations.size()>0);
         Obligation firstSentence = obligations.get(0);
         assertEquals(firstSentence.getWholeSentence(), "This is the first sentence, it says that The Supplier must sit down.");
@@ -50,20 +55,20 @@ public class ObligationsFinderTests {
 
     @Test
     void testFindObligations_finds_shall() {
-        List<Obligation> obligations =  obligationsFinder.findObligations(PARAGRAPH_WITH_3_OBLIGATIONS);
+        List<Obligation> obligations =  obligationsFinder.findObligationsInParagraph(PARAGRAPH_WITH_3_OBLIGATIONS);
         assertTrue(obligations.size()>0);
         assertTrue(obligations.stream().anyMatch(obl -> obl.getObligingVerb().equals("shall")));
     }
 
     @Test
     void testFindObligations_finds_multiple_obligaitons_in_para() {
-        List<Obligation> obligations =  obligationsFinder.findObligations(PARAGRAPH_WITH_3_OBLIGATIONS);
+        List<Obligation> obligations =  obligationsFinder.findObligationsInParagraph(PARAGRAPH_WITH_3_OBLIGATIONS);
         assertEquals(obligations.size(),3);
     }
 
     @Test
     void testFindObligations_finds_multiple_obligations_in_sentence() {
-        List<Obligation> obligations =  obligationsFinder.findObligations(SENTENCE_WITH_2_OBLGATIONS);
+        List<Obligation> obligations =  obligationsFinder.findObligationsInParagraph(SENTENCE_WITH_2_OBLGATIONS);
         assertEquals(obligations.size(),2);
         assertTrue(obligations.get(0).getAction().contains("pay the money"));
         assertTrue(obligations.get(1).getAction().contains("provide the service"));
@@ -71,9 +76,31 @@ public class ObligationsFinderTests {
 
 
     @Test
-    void testFindsObligationsInParagraphs() {
-        ObligationsByParty obligationsByParty = obligationsFinder.findObligations(LIST_OF_PARAGRAPHS);
-        assertEquals(obligationsByParty.getRawObligations().size(),4);
+    void testSortsObligationsByParty() {
+        ObligationsByParty obligationsByParty = obligationsFinder.findAndSortObligations(LIST_OF_PARAGRAPHS);
+        assertEquals(obligationsByParty.getSortedObligations().get("SUPPLIER").size(), 2);
+        assertEquals(obligationsByParty.getSortedObligations().get("CUSTOMER").size(), 2);
+    }
+
+    @Test
+    void testFilterObligationsFiltersOutNonParties(){
+        List<Obligation> rawObligations =  obligationsFinder.findObligationsInParagraph(SENTENCE_WITH_NON_PARTIES);
+        Map<String, List<Obligation>> sortedObligations = obligationsFinder.sortOblgationsByParty(rawObligations);
+        assertEquals(2, sortedObligations.keySet().size());
+        obligationsFinder.filterOutNonParties(sortedObligations);
+        assertEquals(1, sortedObligations.keySet().size());
+    }
+
+    @Test
+    void testFindAnSortFiltersOutNonParties(){
+
+        List<Obligation> rawObligations =  obligationsFinder.findObligationsInParagraph(SENTENCE_WITH_NON_PARTIES);
+        assertEquals(2, rawObligations.size());
+
+        ObligationsByParty obligationsByParty = obligationsFinder.findAndSortObligations(Collections.singletonList(SENTENCE_WITH_NON_PARTIES));
+        assertEquals(1, obligationsByParty.getSortedObligations().keySet().size());
+        assertNotNull(obligationsByParty.getSortedObligations().get("SUPPLIER"));
+        assertNull(obligationsByParty.getSortedObligations().get("AGREEMENT"));// should be filtered
     }
 
 

@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,8 +60,7 @@ public class UploadControllerTests {
     }
 
     @Test
-    void whenPostAFile_thenReceiveAnalysis()
-            throws Exception {
+    void whenPostAFile_thenReceiveAnalysis() throws Exception {
         MockMultipartFile mockFile = new TestUtils().dummyWordDoc("WordDocWithLinesAndParagraphs.docx");
         ContractSummary mockContractSummary = new ContractSummary();
         mockContractSummary.addSection(new ContractSummarySection("Dummy section title", Collections.singletonList("Dummy section")));
@@ -66,12 +68,15 @@ public class UploadControllerTests {
         Obligation mockObligation = new Obligation();
         mockObligation.setParty("The Supplier");
         mockObligation.setWholeSentenceHighlighted("The Supplier must do stuff");
-        ObligationsByParty obligations = new ObligationsByParty(Collections.singletonList(mockObligation));
+        Map<String, List<Obligation>> mockSortedObligations = new HashMap<>();
+        mockSortedObligations.put("SUPPLIER", Collections.singletonList(mockObligation));
+
+        ObligationsByParty obligations = new ObligationsByParty(mockSortedObligations);
 
         when(reader.extractTextFromFile(mockFile)).thenReturn("Dummy raw text");
         when(reader.parseParagraphs(anyString())).thenReturn(Collections.singletonList("Dummy raw paragraph"));
         when(summariser.summarise(anyList())).thenReturn(mockContractSummary);
-        when(obligationsFinder.findObligations(anyList())).thenReturn(obligations);
+        when(obligationsFinder.findAndSortObligations(anyList())).thenReturn(obligations);
 
         MvcResult result = mvc.perform(multipart("/upload-file")
                 .file(mockFile))
@@ -81,7 +86,7 @@ public class UploadControllerTests {
         assertTrue(stringResult.contains("<h2 class=\"subtitle\">Dummy section title</h2>"));
 
         assertTrue(stringResult.contains("<p>Dummy section</p>"));
-        assertTrue(stringResult.contains("<h2 class=\"subtitle\">THE SUPPLIER</h2>"));
+        assertTrue(stringResult.contains("<h2 class=\"subtitle\">SUPPLIER</h2>"));
         assertTrue(stringResult.contains("The Supplier must do stuff"));
 
 

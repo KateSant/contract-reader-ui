@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -46,15 +49,24 @@ public class ObligationsFinder {
         pattern = Pattern.compile(regexWithVerbs);
     }
 
-    public ObligationsByParty findObligations(List<String> inputParagraphs) {
-        List<Obligation> obligations = new ArrayList<>();
-        inputParagraphs.stream().forEach(para -> {
-            obligations.addAll(findObligations(para));
-        });
-        return new ObligationsByParty(obligations);
+    public ObligationsByParty findAndSortObligations(List<String> inputParagraphs) {
+        List<Obligation> rawObligations = findObligationsInDocument(inputParagraphs);
+        Map<String, List<Obligation>> sortedObligations = sortOblgationsByParty(rawObligations);
+        filterOutNonParties(sortedObligations);
+        return new ObligationsByParty(sortedObligations);
     }
 
-    protected List<Obligation> findObligations(String inputParagraph) {
+
+
+    protected List<Obligation> findObligationsInDocument(List<String> inputParagraphs) {
+        List<Obligation> obligations = new ArrayList<>();
+        inputParagraphs.stream().forEach(para -> {
+            obligations.addAll(findObligationsInParagraph(para));
+        });
+        return obligations;
+    }
+
+    protected List<Obligation> findObligationsInParagraph(String inputParagraph) {
         List<Obligation> obligations = new ArrayList<>();
         Matcher matcher = pattern.matcher(inputParagraph);
         while (matcher.find()) {
@@ -77,5 +89,26 @@ public class ObligationsFinder {
     }
 
 
+    protected void filterOutNonParties(Map<String, List<Obligation>> sortedObligations) {
 
+        for(String nonParty : obligationsConfig.getNonParties()){
+            String nonPartyKey = nonParty.toUpperCase();
+            if(sortedObligations.containsKey(nonPartyKey)){
+                sortedObligations.remove(nonPartyKey);
+            }
+        }
+    }
+
+    protected Map<String, List<Obligation>> sortOblgationsByParty(List<Obligation> rawObligations){
+        Map<String, List<Obligation>> sortedObligations = new HashMap<>();
+        for(Obligation obl: rawObligations){
+            String party = obl.getParty().toUpperCase();
+            if(sortedObligations.containsKey(party)){
+                sortedObligations.get(party).add(obl);// add one to list
+            }else{
+                sortedObligations.put(party, new ArrayList<>(List.of(obl))); // start new list
+            }
+        }
+        return sortedObligations;
+    }
 }

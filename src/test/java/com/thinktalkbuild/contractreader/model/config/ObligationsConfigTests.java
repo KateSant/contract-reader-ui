@@ -22,6 +22,6 @@ class ObligationsConfigTests {
     @Test
     public void testLoadsYaml() {
         assertNotNull(obligationsConfig.getObligingVerbs().get(0));
-
+        assertNotNull(obligationsConfig.getNonParties().get(0));
     }
 }

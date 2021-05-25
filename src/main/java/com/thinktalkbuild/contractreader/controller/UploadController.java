@@ -54,7 +54,7 @@ public class UploadController {
             model.addAttribute("filename", file.getOriginalFilename());
             ContractSummary summary = summariser.summarise(paragraphs);
             model.addAttribute("summary", summary);
-            ObligationsByParty obligationsByParty = obligationsFinder.findObligations(paragraphs);
+            ObligationsByParty obligationsByParty = obligationsFinder.findAndSortObligations(paragraphs);
             model.addAttribute("obligationsByParty", obligationsByParty);
 
         } catch (Exception ex) {
