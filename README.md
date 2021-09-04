@@ -20,7 +20,7 @@ docker push gcr.io/contract-reader/contract-reader-image
 
 
 ## Deploy image to GCP
-[One off - create service called contract-reader on Google Cloud Run in region europe-west4 (Netherlands) https://console.cloud.google.com/run?project=contract-reader]
+[One off - create service called contract-reader on Google Cloud Run in region europe-west4 (Netherlands) https://console.cloud.google.com/run?project=contract-reader]   TODO: Terraform this.
 
 ```
 gcloud run deploy contract-reader --region europe-west4 --project contract-reader --image gcr.io/contract-reader/contract-reader-image --platform managed
