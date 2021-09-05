@@ -1,7 +1,7 @@
 name: 'Build and deploy, parameterised'
 description: 'Build and deploy, parameterised'
 inputs:
-  who-to-greet:
+  GCP_SA_KEY:
     description: 'Who to greet'
     required: true
     default: 'World'
@@ -23,13 +23,13 @@ runs:
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@v0.2.0
       with:
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        service_account_key: ${{ inputs.GCP_SA_KEY }}
         project_id: contract-reader
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
-    - run: |-
-        gcloud --quiet auth configure-docker
+    - run: gcloud --quiet auth configure-docker
+      shell: bash
 
 
     # Build the Docker image
@@ -40,14 +40,14 @@ runs:
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
+      shell: bash
 
     # Push the Docker image to Google Container Registry
     - name: Publish
-      run: |-
-        docker push "gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA"
+      run: docker push "gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA"
+      shell: bash
 
     # Deploy the image to Google Cloud Run
     - name: Deploy
-      run: |-
-        gcloud run deploy $SERVICE --region europe-west4 --project contract-reader --image gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA --platform managed
-
+      run: gcloud run deploy $SERVICE --region europe-west4 --project contract-reader --image gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA --platform managed
+      shell: bash

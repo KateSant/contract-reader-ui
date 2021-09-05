@@ -1,3 +1,5 @@
+name: Deploy to GCP - PROD
+
 on: [workflow_dispatch]
 
 jobs:
@@ -9,4 +11,4 @@ jobs:
       - id: foo
         uses: ./.github/actions/build-docker-deploy-to-gcp
         with:
-          who-to-greet: 'Mona the Octocat'
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
