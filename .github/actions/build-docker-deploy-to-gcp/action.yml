@@ -2,15 +2,14 @@ name: 'Build and deploy, parameterised'
 description: 'Build and deploy, parameterised'
 inputs:
   GCP_SA_KEY:
-    description: 'Who to greet'
     required: true
-    default: 'World'
+  BRANCH:
+    required: true
+  SERVICE:
+    required: true
+  IMAGE:
+    required: true
 
-env:
-  PROJECT: contract-reader
-  BRANCH: main
-  SERVICE: contract-reader
-  IMAGE: contract-reader-image
 
 runs:
   using: "composite"
@@ -18,7 +17,7 @@ runs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: $BRANCH
+        ref: ${{ inputs.BRANCH }}
 
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@v0.2.0
@@ -36,7 +35,7 @@ runs:
     - name: Build
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA" \
+          --tag "gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
@@ -44,10 +43,10 @@ runs:
 
     # Push the Docker image to Google Container Registry
     - name: Publish
-      run: docker push "gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA"
+      run: docker push "gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA"
       shell: bash
 
     # Deploy the image to Google Cloud Run
     - name: Deploy
-      run: gcloud run deploy $SERVICE --region europe-west4 --project contract-reader --image gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA --platform managed
+      run: gcloud run deploy ${{ inputs.SERVICE }} --region europe-west4 --project contract-reader --image gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA --platform managed
       shell: bash
