@@ -1,10 +1,10 @@
-name: Deploy to GCP
-
-on:
-  workflow_dispatch:
-#  push: 
-#    branches: [ main ]
-  
+name: 'Build and deploy, parameterised'
+description: 'Build and deploy, parameterised'
+inputs:
+  who-to-greet:
+    description: 'Who to greet'
+    required: true
+    default: 'World'
 
 env:
   PROJECT: contract-reader
@@ -12,13 +12,9 @@ env:
   SERVICE: contract-reader
   IMAGE: contract-reader-image
 
-jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
-    runs-on: ubuntu-latest
-    environment: production
-
-    steps:
+runs:
+  using: "composite"
+  steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -34,8 +30,8 @@ jobs:
     # helper for authentication
     - run: |-
         gcloud --quiet auth configure-docker
-        
-   
+
+
     # Build the Docker image
     - name: Build
       run: |-
@@ -49,7 +45,7 @@ jobs:
     - name: Publish
       run: |-
         docker push "gcr.io/$PROJECT/$IMAGE:$GITHUB_SHA"
-        
+
     # Deploy the image to Google Cloud Run
     - name: Deploy
       run: |-

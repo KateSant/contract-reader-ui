@@ -1,12 +1,12 @@
 on: [workflow_dispatch]
 
 jobs:
-  hello_world_job:
+  deploy_to_prod:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Deploy to prod
     steps:
       - uses: actions/checkout@v2
       - id: foo
-        uses: ./.github/actions/hello-world
+        uses: ./.github/actions/build-docker-deploy-to-gcp
         with:
           who-to-greet: 'Mona the Octocat'
