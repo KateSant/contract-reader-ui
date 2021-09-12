@@ -83,8 +83,6 @@ public class ObligationsFinder {
             obligations.add(obl);
         }
 
-
-
         return obligations;
     }
 
