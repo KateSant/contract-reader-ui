@@ -28,7 +28,7 @@ public class DurationFinder {
         this.highlighter=highlighter;
     }
 
-    private List<Duration> findDurationsInDocument(List<String> inputParagraphs) {
+    public List<Duration> findDurationsInDocument(List<String> inputParagraphs) {
         List<Duration> durations = new ArrayList<>();
         inputParagraphs.stream().forEach(para -> {
             durations.addAll(findDurationsInParagraph(para));

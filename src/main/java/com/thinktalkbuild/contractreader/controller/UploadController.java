@@ -1,9 +1,11 @@
 package com.thinktalkbuild.contractreader.controller;
 
 import com.thinktalkbuild.contractreader.model.ContractSummary;
+import com.thinktalkbuild.contractreader.model.Duration;
 import com.thinktalkbuild.contractreader.model.Obligation;
 import com.thinktalkbuild.contractreader.model.ObligationsByParty;
 import com.thinktalkbuild.contractreader.service.ContractSummariser;
+import com.thinktalkbuild.contractreader.service.DurationFinder;
 import com.thinktalkbuild.contractreader.service.ObligationsFinder;
 import com.thinktalkbuild.contractreader.service.WordDocReader;
 import java.util.List;
@@ -31,11 +33,14 @@ public class UploadController {
 
     private ObligationsFinder obligationsFinder;
 
+
+
     @Autowired
     public UploadController(WordDocReader reader, ContractSummariser summariser, ObligationsFinder obligationsFinder){
         this.reader=reader;
         this.summariser=summariser;
         this.obligationsFinder=obligationsFinder;
+
     }
     
 
@@ -56,7 +61,6 @@ public class UploadController {
             model.addAttribute("summary", summary);
             ObligationsByParty obligationsByParty = obligationsFinder.findAndSortObligations(paragraphs);
             model.addAttribute("obligationsByParty", obligationsByParty);
-            model.addAttribute("periods", obligationsByParty);
 
 
         } catch (Exception ex) {

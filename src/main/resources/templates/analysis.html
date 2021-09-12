@@ -45,7 +45,7 @@
                 <h2 class="subtitle" th:text="${mapEntry.key}"/>
                 <nav class="panel contract-snippet">
                     <div th:each="obligation : ${mapEntry.value}">
-                    <p th:utext="${obligation.wholeSentenceHighlighted}"/><br/>
+                    <p th:utext="${obligation.contextHighlighted}"/><br/>
                 </div>
                 </nav><br/>
             </div>
