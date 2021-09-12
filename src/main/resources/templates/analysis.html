@@ -19,6 +19,7 @@
             <ul>
                 <li class="tab is-active" onclick="openTab(event, 'summary')"><a>Summary</a></li>
                 <li class="tab " onclick="openTab(event, 'obligations')"><a>Obligations</a></li>
+                <li class="tab " onclick="openTab(event, 'durations')"><a>Duration</a></li>
                 <li class="tab" onclick="openTab(event, 'raw')"><a>Raw</a></li>
 
             </ul>
@@ -48,6 +49,18 @@
                     <p th:utext="${obligation.contextHighlighted}"/><br/>
                 </div>
                 </nav><br/>
+            </div>
+        </div>
+
+        <div id="durations" class="content-tab">
+            <div th:each="duration : ${durations}">
+                <h2 class="subtitle">Duration = <span th:text="${duration.period.months}"/> months</h2>
+                <nav class="panel contract-snippet">
+                    <div th:each="paragraph : ${duration.contextHighlighted}">
+                        <p th:utext="${paragraph}"/><br/>
+                    </div>
+                </nav><br/>
+
             </div>
         </div>
 

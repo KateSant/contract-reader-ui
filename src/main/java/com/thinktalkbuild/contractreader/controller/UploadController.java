@@ -9,6 +9,8 @@ import com.thinktalkbuild.contractreader.service.DurationFinder;
 import com.thinktalkbuild.contractreader.service.ObligationsFinder;
 import com.thinktalkbuild.contractreader.service.WordDocReader;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author kate
  */
 @Controller
+@Slf4j
 public class UploadController {
 
     private WordDocReader reader;
@@ -33,14 +36,14 @@ public class UploadController {
 
     private ObligationsFinder obligationsFinder;
 
-
+    private DurationFinder durationFinder;
 
     @Autowired
-    public UploadController(WordDocReader reader, ContractSummariser summariser, ObligationsFinder obligationsFinder){
+    public UploadController(WordDocReader reader, ContractSummariser summariser, ObligationsFinder obligationsFinder, DurationFinder durationFinder){
         this.reader=reader;
         this.summariser=summariser;
         this.obligationsFinder=obligationsFinder;
-
+        this.durationFinder = durationFinder;
     }
     
 
@@ -61,6 +64,8 @@ public class UploadController {
             model.addAttribute("summary", summary);
             ObligationsByParty obligationsByParty = obligationsFinder.findAndSortObligations(paragraphs);
             model.addAttribute("obligationsByParty", obligationsByParty);
+            List<Duration> durations = durationFinder.findDurationsInDocument(paragraphs);
+            model.addAttribute("durations", durations);
 
 
         } catch (Exception ex) {

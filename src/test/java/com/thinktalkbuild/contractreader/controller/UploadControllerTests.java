@@ -1,13 +1,7 @@
 package com.thinktalkbuild.contractreader.controller;
 
-import com.thinktalkbuild.contractreader.model.ContractSummary;
-import com.thinktalkbuild.contractreader.model.ContractSummarySection;
-import com.thinktalkbuild.contractreader.model.Obligation;
-import com.thinktalkbuild.contractreader.model.ObligationsByParty;
-import com.thinktalkbuild.contractreader.service.ContractSummariser;
-import com.thinktalkbuild.contractreader.service.ObligationsFinder;
-import com.thinktalkbuild.contractreader.service.TestUtils;
-import com.thinktalkbuild.contractreader.service.WordDocReader;
+import com.thinktalkbuild.contractreader.model.*;
+import com.thinktalkbuild.contractreader.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,10 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Period;
+import java.util.*;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,6 +40,9 @@ public class UploadControllerTests {
     @MockBean
     private ObligationsFinder obligationsFinder;
 
+    @MockBean
+    private DurationFinder durationFinder;
+
     @Test
     void whenGetUploadPage_thenReceiveSuccess()
             throws Exception {
@@ -70,13 +65,17 @@ public class UploadControllerTests {
         mockObligation.setContextHighlighted("The Supplier must do stuff");
         Map<String, List<Obligation>> mockSortedObligations = new HashMap<>();
         mockSortedObligations.put("SUPPLIER", Collections.singletonList(mockObligation));
-
         ObligationsByParty obligations = new ObligationsByParty(mockSortedObligations);
+
+        Duration duration = new Duration();
+        duration.setPeriod(Period.ofMonths(42));
+        List<Duration> mockDurations = Collections.singletonList(duration);
 
         when(reader.extractTextFromFile(mockFile)).thenReturn("Dummy raw text");
         when(reader.parseParagraphs(anyString())).thenReturn(Collections.singletonList("Dummy raw paragraph"));
         when(summariser.summarise(anyList())).thenReturn(mockContractSummary);
         when(obligationsFinder.findAndSortObligations(anyList())).thenReturn(obligations);
+        when(durationFinder.findDurationsInDocument(anyList())).thenReturn(mockDurations);
 
         MvcResult result = mvc.perform(multipart("/upload-file")
                 .file(mockFile))
@@ -88,6 +87,8 @@ public class UploadControllerTests {
         assertTrue(stringResult.contains("<p>Dummy section</p>"));
         assertTrue(stringResult.contains("<h2 class=\"subtitle\">SUPPLIER</h2>"));
         assertTrue(stringResult.contains("The Supplier must do stuff"));
+
+        assertTrue(stringResult.contains("42"));
 
 
     }

@@ -47,7 +47,7 @@ public class DurationFinder {
             String monthsOrYears = matcher.group(2).toLowerCase();
             String wholeChunk= matcher.group(0).toLowerCase();
 
-            log.info("howmany= {}, monthsoryears= {}", howMany, monthsOrYears);
+            log.debug("Found duration : howmany= {}, monthsoryears= {}", howMany, monthsOrYears);
             Duration duration = new Duration();
             duration.setContext(para);
 
