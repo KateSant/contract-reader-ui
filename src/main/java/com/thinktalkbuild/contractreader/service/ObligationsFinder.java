@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -71,15 +70,15 @@ public class ObligationsFinder {
         Matcher matcher = pattern.matcher(inputParagraph);
         while (matcher.find()) {
             Obligation obl = new Obligation();
-            obl.setWholeSentence(matcher.group(0));
+            obl.setContext(matcher.group(0));
             obl.setParty(matcher.group(1));
             obl.setObligingVerb(matcher.group(2));
             obl.setAction(matcher.group(3));
-            String highlighted = highlighter.highlight(obl.getWholeSentence(), List.of(
+            String highlighted = highlighter.highlight(obl.getContext(), List.of(
                     obl.getObligingVerb(),
                     obl.getAction()
                     ));
-            obl.setWholeSentenceHighlighted(highlighted);
+            obl.setContextHighlighted(highlighted);
             obligations.add(obl);
         }
 

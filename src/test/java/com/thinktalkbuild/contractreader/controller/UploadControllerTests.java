@@ -67,7 +67,7 @@ public class UploadControllerTests {
 
         Obligation mockObligation = new Obligation();
         mockObligation.setParty("The Supplier");
-        mockObligation.setWholeSentenceHighlighted("The Supplier must do stuff");
+        mockObligation.setContextHighlighted("The Supplier must do stuff");
         Map<String, List<Obligation>> mockSortedObligations = new HashMap<>();
         mockSortedObligations.put("SUPPLIER", Collections.singletonList(mockObligation));
 

@@ -56,6 +56,8 @@ public class UploadController {
             model.addAttribute("summary", summary);
             ObligationsByParty obligationsByParty = obligationsFinder.findAndSortObligations(paragraphs);
             model.addAttribute("obligationsByParty", obligationsByParty);
+            model.addAttribute("periods", obligationsByParty);
+
 
         } catch (Exception ex) {
             model.addAttribute("errormessage", "An error occurred processing the file.");

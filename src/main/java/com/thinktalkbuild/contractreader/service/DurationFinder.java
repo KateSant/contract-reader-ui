@@ -1,13 +1,12 @@
 package com.thinktalkbuild.contractreader.service;
 
-import com.thinktalkbuild.contractreader.model.Obligation;
+import com.thinktalkbuild.contractreader.model.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,29 +14,56 @@ import java.util.regex.Pattern;
 @Service
 public class DurationFinder {
 
-    public static String regex = "a period of (\\d+) (month|months|year|years)";
+    public static String regex = "a period of " +
+                                    "(\\d+) " + //digits
+                                    "(month|year)(s\\b|\\b)"; //optional "s" then end of word
+
+
     private Pattern pattern;
-    public DurationFinder(){
+    private Highlighter highlighter;
+
+
+    public DurationFinder(Highlighter highlighter){
         pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        this.highlighter=highlighter;
     }
 
+    private List<Duration> findDurationsInDocument(List<String> inputParagraphs) {
+        List<Duration> durations = new ArrayList<>();
+        inputParagraphs.stream().forEach(para -> {
+            durations.addAll(findDurationsInParagraph(para));
+        });
+        return durations;
+    }
 
-    public List<Period> findDurationsInParagraph(String para) {
+    protected List<Duration> findDurationsInParagraph(String para) {
 
-        List<Period> durations = new ArrayList<>();
+        List<Duration> durations = new ArrayList<>();
         Matcher matcher = pattern.matcher(para);
         while (matcher.find()) {
 
-
+            String howManyFound = matcher.group(1);
             int howMany = Integer.parseInt(matcher.group(1));
             String monthsOrYears = matcher.group(2).toLowerCase();
+            String wholeChunk= matcher.group(0).toLowerCase();
 
             log.info("howmany= {}, monthsoryears= {}", howMany, monthsOrYears);
+            Duration duration = new Duration();
+            duration.setContext(para);
+
             if(monthsOrYears.contains("month")){
-                durations.add( Period.ofMonths(howMany) );
+                duration.setPeriod(Period.ofMonths(howMany));
             }else if(monthsOrYears.contains("year")){
-                durations.add( Period.ofYears(howMany) );
+                duration.setPeriod(Period.ofYears(howMany));
             }
+
+            String highlighted = highlighter.highlight(para, List.of(
+                    howManyFound,
+                    monthsOrYears
+                ));
+            duration.setContextHighlighted(highlighted);
+
+            durations.add(duration);
         }
         return durations;
     }

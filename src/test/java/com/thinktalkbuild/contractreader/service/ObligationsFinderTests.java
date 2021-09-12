@@ -47,7 +47,7 @@ public class ObligationsFinderTests {
         List<Obligation> obligations =  obligationsFinder.findObligationsInParagraph(PARAGRAPH_WITH_3_OBLIGATIONS);
         assertTrue(obligations.size()>0);
         Obligation firstSentence = obligations.get(0);
-        assertEquals(firstSentence.getWholeSentence(), "This is the first sentence, it says that The Supplier must sit down.");
+        assertEquals(firstSentence.getContext(), "This is the first sentence, it says that The Supplier must sit down.");
         assertEquals(firstSentence.getObligingVerb(), "must");
         assertEquals(firstSentence.getParty(), "Supplier");
         assertEquals(firstSentence.getAction(), "sit down");
