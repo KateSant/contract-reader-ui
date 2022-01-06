@@ -1,0 +1,14 @@
+target/
+*.class
+*.log
+*.jar
+*.war
+.mvn/
+.DS_Store
+nbactions.xml
+mvnw
+mvnw.cmd
+*.iml
+.idea/
+
+/nbproject/

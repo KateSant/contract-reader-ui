@@ -1,13 +1,13 @@
-package com.thinktalkbuild.contractreader;
+package com.thinktalkbuild.contractreader.ui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ContractreaderApplication {
+public class ContractReaderUIApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ContractreaderApplication.class, args);
+		SpringApplication.run(ContractReaderUIApplication.class, args);
 	}
 
 }

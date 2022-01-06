@@ -1,4 +1,4 @@
-package com.thinktalkbuild.contractreader.model;
+package com.thinktalkbuild.contractreader.ui.model;
 
 import java.util.*;
 
