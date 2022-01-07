@@ -10,7 +10,7 @@ public class ObligationsByParty {
        this.sortedObligations=sortedObligations;
     }
 
-
+    public ObligationsByParty(){};
     public Map<String, List<Obligation>> getSortedObligations() {
         return sortedObligations;
     }

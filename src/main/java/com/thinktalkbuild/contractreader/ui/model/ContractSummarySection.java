@@ -17,6 +17,7 @@ public class ContractSummarySection {
         this.title = title;
         this.resultsParagraphs = resultsParagraphs;
     }
+    public ContractSummarySection(){};
 
     public String getTitle() {
         return title;
