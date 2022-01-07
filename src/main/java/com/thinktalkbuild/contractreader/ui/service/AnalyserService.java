@@ -29,7 +29,7 @@ public class AnalyserService {
     private String endpoint;
 
     public Analysis postToAnalysisEngine(MultipartFile file) {
-           HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", file.getResource());
