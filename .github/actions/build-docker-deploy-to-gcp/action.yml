@@ -46,7 +46,24 @@ runs:
       run: docker push "gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA"
       shell: bash
 
-    # Deploy the image to Google Cloud Run
-    - name: Deploy
-      run: gcloud run deploy ${{ inputs.SERVICE }} --region europe-west4 --project contract-reader --image gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA --platform managed
+    # # Deploy the image to Google Cloud Run
+    # - name: Deploy
+    #   run: gcloud run deploy ${{ inputs.SERVICE }} --region europe-west4 --project contract-reader --image gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA --platform managed
+    #   shell: bash
+
+    # Terraform the GCR service 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        cli_config_credentials_token: ${{ inputs.TF_API_TOKEN }}
+
+    - name: Terraform Init
+      working-directory: terraform
+      run: terraform init
       shell: bash
+
+    # Pass docker image name to terraform
+    - name: Terraform Apply
+      working-directory: terraform
+      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -auto-approve -input=false
+      shell: bash  
