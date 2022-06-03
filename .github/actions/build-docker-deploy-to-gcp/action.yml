@@ -9,6 +9,8 @@ inputs:
     required: true
   IMAGE:
     required: true
+  TF_API_TOKEN:
+    required: true
   ENGINE-ENDPOINT:
     required: true
   TFCLOUD-WORKSPACE:
