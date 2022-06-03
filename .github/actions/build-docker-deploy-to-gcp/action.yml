@@ -19,9 +19,6 @@ inputs:
 
 runs:
   using: "composite"
-  env: 
-    TF_IN_AUTOMATION: true 
-    TF_WORKSPACE: "${{ inputs.TFCLOUD-WORKSPACE }}"
   steps:
     - name: Checkout
       uses: actions/checkout@v2

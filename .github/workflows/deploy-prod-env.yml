@@ -2,6 +2,10 @@ name: Deploy Contracts Hub UI to Prod
 
 on: [workflow_dispatch]
 
+env: 
+  TF_IN_AUTOMATION: true 
+  TF_WORKSPACE: gcp-contractreader-ui
+
 jobs:
   deploy_to_prod:
     runs-on: ubuntu-latest
