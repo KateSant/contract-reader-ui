@@ -28,6 +28,11 @@ variable "docker-image" {
   type = string
 }
 
+variable "engine-endpoint" {
+  type = string
+}
+
+
 resource "google_cloud_run_service" "cluster" {
   name     = var.service-name
   location = "europe-west4"
@@ -38,7 +43,7 @@ resource "google_cloud_run_service" "cluster" {
         image = var.docker-image
         env {
           name = "contract-reader_engine_url"
-          value = "https://contract-reader-engine-service-tfd-sm43mbtjmq-ez.a.run.app"
+          value = var.engine-endpoint
         }
       }
 

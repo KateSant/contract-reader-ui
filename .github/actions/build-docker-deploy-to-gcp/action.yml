@@ -9,6 +9,8 @@ inputs:
     required: true
   IMAGE:
     required: true
+  ENGINE-ENDPOINT:
+    required: true
 
 
 runs:
@@ -43,7 +45,7 @@ runs:
 
     # Push the Docker image to Google Container Registry
     - name: Publish
-      run: docker push "gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA"
+      run: docker push "gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" --quiet
       shell: bash
 
     # # Deploy the image to Google Cloud Run
@@ -65,5 +67,5 @@ runs:
     # Pass docker image name to terraform
     - name: Terraform Apply
       working-directory: terraform
-      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -auto-approve -input=false
+      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -var="engine-endpoint=${{ inputs.ENGINE-ENDPOINT }}" -auto-approve -input=false
       shell: bash  
