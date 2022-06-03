@@ -9,7 +9,7 @@ terraform {
     organization = "kate-dev"
 
     workspaces {
-      tags = "contractreader"
+      tags = ["contractreader"]
     }
   }
 }
