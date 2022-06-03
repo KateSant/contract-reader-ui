@@ -13,8 +13,6 @@ inputs:
     required: true
   ENGINE-ENDPOINT:
     required: true
-  TFCLOUD-WORKSPACE:
-    required: true
 
 
 runs:
