@@ -19,6 +19,9 @@ inputs:
 
 runs:
   using: "composite"
+  env: 
+    TF_IN_AUTOMATION: true 
+    TF_WORKSPACE: "${{ inputs.TFCLOUD-WORKSPACE }}"
   steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -64,9 +67,6 @@ runs:
       uses: hashicorp/setup-terraform@v2
       with:
         cli_config_credentials_token: ${{ inputs.TF_API_TOKEN }}
-      env: 
-        TF_IN_AUTOMATION: true 
-        TF_WORKSPACE: "${{ inputs.TFCLOUD-WORKSPACE }}"
 
     - name: Terraform Init
       working-directory: terraform
