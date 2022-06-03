@@ -17,3 +17,4 @@ jobs:
           IMAGE: contract-reader-ui-image
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           ENGINE-ENDPOINT: https://contract-reader-engine-service-tfd-sm43mbtjmq-ez.a.run.app
+          TFCLOUD-WORKSPACE: gcp-contractreader-ui
