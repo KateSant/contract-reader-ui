@@ -34,7 +34,7 @@ runs:
     # Build the Docker image
     - name: Build
       run: |-
-        docker build \
+        docker build --quiet \
           --tag "gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \

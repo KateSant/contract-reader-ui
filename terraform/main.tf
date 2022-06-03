@@ -9,7 +9,7 @@ terraform {
     organization = "kate-dev"
 
     workspaces {
-      name = "gcp"
+      name = "gcp-contractreader-ui"
     }
   }
 }
