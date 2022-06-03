@@ -9,9 +9,9 @@ inputs:
     required: true
   IMAGE:
     required: true
-  ENGINE-ENDPOINT:
+  TF_API_TOKEN:
     required: true
-  TFCLOUD-WORKSPACE:
+  ENGINE-ENDPOINT:
     required: true
 
 
@@ -56,6 +56,8 @@ runs:
     #   shell: bash
 
     # Terraform the GCR service 
+    
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
@@ -69,5 +71,5 @@ runs:
     # Pass docker image name to terraform
     - name: Terraform Apply
       working-directory: terraform
-      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -var="engine-endpoint=${{ inputs.ENGINE-ENDPOINT }}" -var="tfcloud-workspace=${{ inputs.TFCLOUD-WORKSPACE }}" -auto-approve -input=false
+      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -var="engine-endpoint=${{ inputs.ENGINE-ENDPOINT }}" -auto-approve -input=false
       shell: bash  

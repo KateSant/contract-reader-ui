@@ -9,7 +9,7 @@ terraform {
     organization = "kate-dev"
 
     workspaces {
-      name = var.tfcloud-workspace
+      tags = ["contractreader"]
     }
   }
 }
@@ -32,9 +32,6 @@ variable "engine-endpoint" {
   type = string
 }
 
-variable "tfcloud-workspace" {
-  type = string
-}
 
 resource "google_cloud_run_service" "cluster" {
   name     = var.service-name

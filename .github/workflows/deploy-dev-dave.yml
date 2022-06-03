@@ -1,6 +1,10 @@
-name: DAVE - DEPLOY
+name: DAVE - deploy
 
 on: [workflow_dispatch]
+
+env: 
+  TF_IN_AUTOMATION: true 
+  TF_WORKSPACE: gcp-contractreader-ui-dev-dave
 
 jobs:
   deploy_to_prod:
@@ -12,9 +16,8 @@ jobs:
         uses: ./.github/actions/build-docker-deploy-to-gcp
         with:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-          BRANCH: main
-          SERVICE: contract-reader-ui-service-tfd-dave-dev
-          IMAGE: contract-reader-ui-image-dave-dev
+          BRANCH: dev-dave
+          SERVICE: contract-reader-ui-service-tfd-dev-dave
+          IMAGE: contract-reader-ui-image-dev-dave
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           ENGINE-ENDPOINT: https://contract-reader-engine-service-tfd-sm43mbtjmq-ez.a.run.app
-          TFCLOUD-WORKSPACE: gcp-contractreader-ui-dave-dev
