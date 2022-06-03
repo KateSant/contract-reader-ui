@@ -1,6 +1,6 @@
 # How to build and deploy
 
-Dispatch the Github Action deploy-prod-env.  It will terraform etc.
+Dispatch the Github Action https://github.com/KateSant/contract-reader-ui/actions/workflows/deploy-prod-env.yml.  It will terraform etc.
 
 # OLD How to build and deploy
 
