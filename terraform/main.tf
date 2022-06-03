@@ -37,6 +37,10 @@ resource "google_cloud_run_service" "cluster" {
       containers {
         image = var.docker-image
       }
+      env {
+          name = "contract-reader_engine_url"
+          value = "https://contract-reader-engine-service-tfd-sm43mbtjmq-ez.a.run.app"
+        }
     }
   }
 
