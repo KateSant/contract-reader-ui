@@ -28,16 +28,20 @@ public class AnalyserService {
     @Value("${contract-reader.engine.endpoint.analyse}")
     private String endpoint;
 
-    public Analysis postToAnalysisEngine(MultipartFile file) {
+    public Analysis postToAnalysisEngine(MultipartFile file) throws Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", file.getResource());
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         String url = apiUrl + endpoint;
-        log.info("Posting to [{}]", url);
+        log.info("Posting to engine [{}]", url);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Analysis> response = restTemplate.postForEntity(url, requestEntity, Analysis.class);
+        if (response.getStatusCode().isError()){
+            log.error("Bad response from engine {}", response);
+            throw new Exception("Bad response from engine");
+        }
         return response.getBody();
     }
 
