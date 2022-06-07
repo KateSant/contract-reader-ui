@@ -47,12 +47,14 @@ public class UploadController {
             model.addAttribute("durations", a.getDurations());
             model.addAttribute("raw", "");
 
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            model.addAttribute("errormessage", "An error occurred processing the file.");
+            return "analysis";
 
+        } catch (Exception ex) {
+            log.error("Error from engine endpoint [{}]", ex.getMessage());
+            model.addAttribute("errormessage", "Failed to process file.");
+            return "error";
         }
-        return "analysis";
+
 
     }
 }

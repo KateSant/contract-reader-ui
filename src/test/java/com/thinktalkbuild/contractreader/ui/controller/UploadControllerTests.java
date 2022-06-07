@@ -75,4 +75,20 @@ public class UploadControllerTests {
 
     }
 
+    @Test
+    void whenEngineReturnsError_thenShowErrorPageInUI() throws Exception {
+
+        MockMultipartFile mockFile = new MockMultipartFile("file", "FileName.docx","multipart/form-data", new ByteArrayInputStream("foo".getBytes()));
+
+        when(mockAnalyserService.postToAnalysisEngine(mockFile)).thenThrow(new Exception());
+
+        MvcResult result = mvc.perform(multipart("/upload-file")
+                .file(mockFile))
+                .andExpect(status().is(200))
+                .andReturn();
+        String stringResult = result.getResponse().getContentAsString();
+        assertTrue(stringResult.contains("Failed to process file"));
+
+    }
+
 }
