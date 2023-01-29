@@ -41,16 +41,6 @@ public class UploadControllerTests {
     @MockBean
     private AnalyserService mockAnalyserService;
 
-
-    @Test
-    void whenGetHomePage_withNoAuth_thenSuccess()
-            throws Exception {
-
-        mvc.perform(get("/"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Home")));
-    }
     @Test
     @WithMockUser
     void whenGetUploadPage_withMockedAuth_thenReceiveSuccess()

@@ -28,21 +28,6 @@ public class UploadController {
     @Autowired
     private AnalyserService analyserService;
 
-    @GetMapping("/")
-    public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        model.addAttribute("auth", principal);
-        return "home";
-    }
-
-    @GetMapping("/user")
-    public String user(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        log.info("user info {}", principal);
-        model.addAttribute("name", principal.getAttribute("name"));
-        model.addAttribute("email", principal.getAttribute("email"));
-        model.addAttribute("id", principal.getName());
-        return "user";
-    }
-
     @GetMapping("/upload-form")
     public String uploadForm(@AuthenticationPrincipal OAuth2User principal) {
         return "upload";
