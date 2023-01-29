@@ -3,6 +3,7 @@ import com.thinktalkbuild.contractreader.ui.model.Analysis;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -24,11 +25,15 @@ import java.util.Map;
 @Slf4j
 public class UploadController {
 
+    @Value("${spring.security.oauth2.client.registration.google.clientSecret}")
+    private String clientSecret;
+
     @Autowired
     private AnalyserService analyserService;
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        log.info("client secret = {}", clientSecret);
         model.addAttribute("auth", principal);
         return "home";
     }
