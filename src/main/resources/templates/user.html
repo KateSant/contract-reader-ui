@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div th:replace="fragments/nav :: nav">...</div>
+<section class="container section">
+
+ From github:
+    <div> Name =  <span th:text="${name}"/></div>
+    <div> Login =  <span th:text="${login}"/></div>
+
+
+</section>
+<div th:replace="fragments/footer :: footer">...</div>
+
+</body>
+</html>

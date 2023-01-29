@@ -3,20 +3,17 @@ import com.thinktalkbuild.contractreader.ui.model.Analysis;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  *
@@ -29,10 +26,26 @@ public class UploadController {
     @Autowired
     private AnalyserService analyserService;
 
-    @GetMapping("/")
-    public String index() {
+
+    @GetMapping("/user") // TODO refactor this to make auth info available to all endpoints
+    public String user(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        log.info("user info {}", principal);
+        model.addAttribute("name", principal.getAttribute("name"));
+        model.addAttribute("login", principal.getAttribute("login"));
+        return "user";
+    }
+
+    @GetMapping("/upload-form")
+    public String uploadForm() {
         return "upload";
     }
+
+    @GetMapping("/")
+    public String index() {
+        return "home";
+    }
+
+
 
     @PostMapping("/upload-file")
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
