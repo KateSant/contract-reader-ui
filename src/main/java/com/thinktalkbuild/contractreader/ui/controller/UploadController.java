@@ -25,15 +25,11 @@ import java.util.Map;
 @Slf4j
 public class UploadController {
 
-    @Value("${spring.security.oauth2.client.registration.google.clientSecret}")
-    private String clientSecret;
-
     @Autowired
     private AnalyserService analyserService;
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        log.info("client secret = {}", clientSecret);
         model.addAttribute("auth", principal);
         return "home";
     }
