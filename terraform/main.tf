@@ -32,6 +32,10 @@ variable "engine-endpoint" {
   type = string
 }
 
+variable "oauth-github-secret" {
+  type = string
+}
+
 
 resource "google_cloud_run_service" "cluster" {
   name     = var.service-name
@@ -44,6 +48,10 @@ resource "google_cloud_run_service" "cluster" {
         env {
           name = "contract-reader_engine_url"
           value = var.engine-endpoint
+        }
+        env {
+          name = "spring_security_oauth2_client_registration_github_clientSecret"
+          value = var.oauth-github-secret
         }
       }
 
