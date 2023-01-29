@@ -13,7 +13,7 @@ inputs:
     required: true
   ENGINE-ENDPOINT:
     required: true
-  OAUTH_GITHUB_SECRET:
+  OAUTH_GOOGLE_SECRET:
     required: true
 
 runs:

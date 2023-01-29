@@ -21,4 +21,4 @@ jobs:
           IMAGE: contract-reader-ui-image-dev-dave
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           ENGINE-ENDPOINT: https://contract-reader-engine-service-tfd-dev-dave-sm43mbtjmq-ez.a.run.app/
-          OAUTH_GOOGLE_SECRET: ${{ secrets.OAUTH_GITHUB_SECRET }}
+          OAUTH_GOOGLE_SECRET: ${{ secrets.OAUTH_GOOGLE_SECRET }}
