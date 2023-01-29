@@ -28,7 +28,8 @@ public class UploadController {
     private AnalyserService analyserService;
 
     @GetMapping("/")
-    public String home() {
+    public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        model.addAttribute("auth", principal);
         return "home";
     }
 
@@ -36,7 +37,8 @@ public class UploadController {
     public String user(@AuthenticationPrincipal OAuth2User principal, Model model) {
         log.info("user info {}", principal);
         model.addAttribute("name", principal.getAttribute("name"));
-        model.addAttribute("login", principal.getAttribute("login"));
+        model.addAttribute("email", principal.getAttribute("email"));
+        model.addAttribute("id", principal.getName());
         return "user";
     }
 

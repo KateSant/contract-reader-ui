@@ -20,21 +20,7 @@ provider "google" {
   region      = "europe-west4"
 }
 
-variable "service-name" {
-  type = string
-}
 
-variable "docker-image" {
-  type = string
-}
-
-variable "engine-endpoint" {
-  type = string
-}
-
-variable "oauth-github-secret" {
-  type = string
-}
 
 
 resource "google_cloud_run_service" "cluster" {
@@ -50,8 +36,8 @@ resource "google_cloud_run_service" "cluster" {
           value = var.engine-endpoint
         }
         env {
-          name = "spring_security_oauth2_client_registration_github_clientSecret"
-          value = var.oauth-github-secret
+          name = "spring_security_oauth2_client_registration_google_clientSecret"
+          value = var.oauth-google-secret
         }
       }
 

@@ -72,5 +72,5 @@ runs:
     # Pass docker image name to terraform
     - name: Terraform Apply
       working-directory: terraform
-      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -var="engine-endpoint=${{ inputs.ENGINE-ENDPOINT }}" -var="oauth-github-secret=${{ inputs.OAUTH_GITHUB_SECRET }}" -auto-approve -input=false
+      run: terraform apply -var="docker-image=gcr.io/contract-reader/${{ inputs.IMAGE }}:$GITHUB_SHA" -var="service-name=${{ inputs.SERVICE }}" -var="engine-endpoint=${{ inputs.ENGINE-ENDPOINT }}" -var="oauth-google-secret=${{ inputs.OAUTH_GOOGLE_SECRET }}" -auto-approve -input=false
       shell: bash  
