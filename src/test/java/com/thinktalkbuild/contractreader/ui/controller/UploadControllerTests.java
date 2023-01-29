@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -23,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,17 +41,29 @@ public class UploadControllerTests {
     @MockBean
     private AnalyserService mockAnalyserService;
 
+
     @Test
-    void whenGetUploadPage_thenReceiveSuccess()
+    void whenGetHomePage_withNoAuth_thenSuccess()
             throws Exception {
 
         mvc.perform(get("/"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Home")));
+    }
+    @Test
+    @WithMockUser
+    void whenGetUploadPage_withMockedAuth_thenReceiveSuccess()
+            throws Exception {
+
+        mvc.perform(get("/upload-form"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Upload")));
     }
 
     @Test
+    @WithMockUser
     void whenPostAFile_thenSeeAnalysisPage() throws Exception {
 
         MockMultipartFile mockFile = new MockMultipartFile("file", "FileName.docx","multipart/form-data", new ByteArrayInputStream("foo".getBytes()));
@@ -66,7 +81,8 @@ public class UploadControllerTests {
         when(mockAnalyserService.postToAnalysisEngine(mockFile)).thenReturn(a);
 
         MvcResult result = mvc.perform(multipart("/upload-file")
-                .file(mockFile))
+                .file(mockFile)
+                .with(csrf()))
                 .andExpect(status().is(200))
                 .andReturn();
         String stringResult = result.getResponse().getContentAsString();
@@ -76,6 +92,7 @@ public class UploadControllerTests {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     void whenEngineReturnsError_thenShowErrorPageInUI() throws Exception {
 
         MockMultipartFile mockFile = new MockMultipartFile("file", "FileName.docx","multipart/form-data", new ByteArrayInputStream("foo".getBytes()));
@@ -83,7 +100,8 @@ public class UploadControllerTests {
         when(mockAnalyserService.postToAnalysisEngine(mockFile)).thenThrow(new Exception());
 
         MvcResult result = mvc.perform(multipart("/upload-file")
-                .file(mockFile))
+                .file(mockFile)
+                .with(csrf()))
                 .andExpect(status().is(200))
                 .andReturn();
         String stringResult = result.getResponse().getContentAsString();

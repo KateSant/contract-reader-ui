@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
@@ -26,8 +27,12 @@ public class UploadController {
     @Autowired
     private AnalyserService analyserService;
 
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 
-    @GetMapping("/user") // TODO refactor this to make auth info available to all endpoints
+    @GetMapping("/user")
     public String user(@AuthenticationPrincipal OAuth2User principal, Model model) {
         log.info("user info {}", principal);
         model.addAttribute("name", principal.getAttribute("name"));
@@ -36,19 +41,14 @@ public class UploadController {
     }
 
     @GetMapping("/upload-form")
-    public String uploadForm() {
+    public String uploadForm(@AuthenticationPrincipal OAuth2User principal) {
         return "upload";
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "home";
     }
 
 
 
     @PostMapping("/upload-file")
-    public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, Model model, @AuthenticationPrincipal OAuth2User principal) {
    
         try {
 

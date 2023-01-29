@@ -23,12 +23,7 @@ public class ContractReaderUIApplication extends WebSecurityConfigurerAdapter {
 								"/webjars/**").permitAll()
 						.anyRequest().authenticated()
 				)
-//				.exceptionHandling(e -> e
-//						.authenticationEntryPoint(
-//								new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//				)
 				.oauth2Login();
-		// @formatter:on
 	}
 
 }

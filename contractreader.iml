@@ -36,7 +36,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.6" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.4.5" level="project" />
@@ -101,8 +100,11 @@
     <orderEntry type="library" name="Maven: com.nimbusds:content-type:2.1" level="project" />
     <orderEntry type="library" name="Maven: com.nimbusds:lang-tag:1.4.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-oauth2-core:5.4.6" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.4.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-oauth2-jose:5.4.6" level="project" />
     <orderEntry type="library" name="Maven: com.nimbusds:nimbus-jose-jwt:8.20.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.6" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.4.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.4.6" level="project" />
   </component>
 </module>
