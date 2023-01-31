@@ -1,4 +1,4 @@
-name: Deploy Contracts Hub UI to Prod
+name: PROD - deploy
 
 on: [workflow_dispatch]
 
