@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -38,14 +39,12 @@ public class UserControllerTests {
 
 
     @Test
-    @WithMockUser(username="kate")
     void whenGetUserPage_withMockedAuth_thenSeeWelcomeData()
             throws Exception {
 
-        mvc.perform(get("/user"))
+        mvc.perform(get("/user").with(oidcLogin()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
-                .andExpect(authenticated().withUsername("kate"))
                 .andExpect(content().string(containsString("Welcome")));
     }
 

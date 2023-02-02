@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,11 +37,13 @@ public class UploadController {
 
 
     @PostMapping("/upload-file")
-    public String uploadFile(@RequestParam("file") MultipartFile file, Model model, @AuthenticationPrincipal OAuth2User principal) {
+    public String uploadFile(@RequestParam("file") MultipartFile file,
+                             Model model,
+                             @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) {
    
         try {
 
-            Analysis a = analyserService.postToAnalysisEngine(file);
+            Analysis a = analyserService.postToAnalysisEngine(file, idToken.getTokenValue());
 
             model.addAttribute("filename", a.getFileName());
             model.addAttribute("summary", a.getSummary());
