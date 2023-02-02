@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -21,11 +22,9 @@ import java.util.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -46,7 +45,7 @@ public class UploadControllerTests {
     void whenGetUploadPage_withMockedAuth_thenReceiveSuccess()
             throws Exception {
 
-        mvc.perform(get("/upload-form"))
+        mvc.perform(get("/upload-form").with(oidcLogin()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Upload")));
@@ -68,11 +67,12 @@ public class UploadControllerTests {
         a.setObligationsByParty(obligations);
 
 
-        when(mockAnalyserService.postToAnalysisEngine(mockFile)).thenReturn(a);
+        when(mockAnalyserService.postToAnalysisEngine(anyObject(), anyString())).thenReturn(a);
 
         MvcResult result = mvc.perform(multipart("/upload-file")
                 .file(mockFile)
-                .with(csrf()))
+                .with(csrf())
+                .with(oidcLogin()))
                 .andExpect(status().is(200))
                 .andReturn();
         String stringResult = result.getResponse().getContentAsString();
@@ -87,11 +87,12 @@ public class UploadControllerTests {
 
         MockMultipartFile mockFile = new MockMultipartFile("file", "FileName.docx","multipart/form-data", new ByteArrayInputStream("foo".getBytes()));
 
-        when(mockAnalyserService.postToAnalysisEngine(mockFile)).thenThrow(new Exception());
+        when(mockAnalyserService.postToAnalysisEngine(anyObject(), anyString())).thenThrow(new Exception());
 
         MvcResult result = mvc.perform(multipart("/upload-file")
                 .file(mockFile)
-                .with(csrf()))
+                .with(csrf())
+                .with(oidcLogin()))
                 .andExpect(status().is(200))
                 .andReturn();
         String stringResult = result.getResponse().getContentAsString();

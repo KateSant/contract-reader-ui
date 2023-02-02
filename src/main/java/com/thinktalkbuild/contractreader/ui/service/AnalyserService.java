@@ -3,6 +3,7 @@ package com.thinktalkbuild.contractreader.ui.service;
 import com.thinktalkbuild.contractreader.ui.model.Analysis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -28,21 +29,29 @@ public class AnalyserService {
     @Value("${contract-reader.engine.endpoint.analyse}")
     private String endpoint;
 
-    public Analysis postToAnalysisEngine(MultipartFile file) throws Exception{
+    public Analysis postToAnalysisEngine(MultipartFile file, String idToken) throws Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", file.getResource());
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         String url = apiUrl + endpoint;
-        log.info("Posting to engine [{}]", url);
-        RestTemplate restTemplate = new RestTemplate();
+        log.info("Posting to engine [{}] with token [{}]", url, idToken);
+        RestTemplate restTemplate = restTemplateWithAuthHeader(idToken);
         ResponseEntity<Analysis> response = restTemplate.postForEntity(url, requestEntity, Analysis.class);
         if (response.getStatusCode().isError()){
             log.error("Bad response from engine {}", response);
             throw new Exception("Bad response from engine");
         }
         return response.getBody();
+    }
+
+    private RestTemplate restTemplateWithAuthHeader(String token){
+        return new RestTemplateBuilder(rt-> rt.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().add("Authorization", "Bearer "+token);
+            return execution.execute(request, body);
+        })).build();
+
     }
 
 }
