@@ -20,7 +20,8 @@ public class ContractReaderUIApplication extends WebSecurityConfigurerAdapter {
 						.antMatchers(
 								"/",
 								"/error",
-								"/webjars/**").permitAll()
+								"/css/**",
+								"/js/**").permitAll()
 						.anyRequest().authenticated()
 				)
 				.oauth2Login();
