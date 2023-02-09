@@ -30,7 +30,7 @@ public class UserServiceTests {
 
     @BeforeEach
     public void startMockServer() {
-        mockServer = startClientAndServer(123);
+        mockServer = startClientAndServer(9090);
     }
 
     @AfterEach
