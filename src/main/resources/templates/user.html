@@ -12,6 +12,7 @@
     <div> Id =  <span th:text="${id}"/></div>
     <div> IDToken =  <span th:text="${idtoken}"/></div>
 
+    <div class="is-error" th:text="${errormessage}"/>
 
 </section>
 <div th:replace="fragments/footer :: footer">...</div>

@@ -21,30 +21,22 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 @Slf4j
-public class AnalyserService extends SecureRestClient{
+public class UserService extends SecureRestClient {
 
     @Value("${contract-reader.engine.url}")
     private String apiUrl;
 
-    @Value("${contract-reader.engine.endpoint.analyse}")
+    @Value("${contract-reader.engine.endpoint.user}")
     private String endpoint;
 
-    public Analysis postToAnalysisEngine(MultipartFile file, String idToken) throws Exception{
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file.getResource());
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+    public void createUser(String idToken){
         String url = apiUrl + endpoint;
-        log.info("Posting to engine [{}] with token [{}]", url, idToken);
+        log.info("Posting to endpoint [{}] with token [{}]", url, idToken);
         RestTemplate restTemplate = restTemplateWithAuthHeader(idToken);
-        ResponseEntity<Analysis> response = restTemplate.postForEntity(url, requestEntity, Analysis.class);
-        if (response.getStatusCode().isError()){
-            log.error("Bad response from engine {}", response);
-            throw new Exception("Bad response from engine");
-        }
-        return response.getBody();
+        ResponseEntity<String> response = restTemplate.postForEntity(url, null, String.class);
+        log.info("Response from user endpoint = [{}]");
     }
+
 
 
 }
