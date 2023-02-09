@@ -28,10 +28,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public String home(@AuthenticationPrincipal UserDetails user, Model model) {
-        return "home";
-    }
 
     @GetMapping("/user")
     public String user(HttpServletRequest request,
