@@ -2,7 +2,9 @@ package com.thinktalkbuild.contractreader.ui.controller;
 
 import com.thinktalkbuild.contractreader.ui.model.*;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
+import com.thinktalkbuild.contractreader.ui.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,8 @@ import java.util.Map;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
@@ -37,10 +41,15 @@ public class UserControllerTests {
     @Autowired
     private MockMvc mvc;
 
+    @MockBean
+    private UserService service;
+
 
     @Test
     void whenGetUserPage_withMockedAuth_thenSeeWelcomeData()
             throws Exception {
+
+        doNothing().when(service).createUser(any());
 
         mvc.perform(get("/user").with(oidcLogin()))
                 .andDo(MockMvcResultHandlers.print())

@@ -1,6 +1,7 @@
 package com.thinktalkbuild.contractreader.ui.controller;
 import com.thinktalkbuild.contractreader.ui.model.Analysis;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
+import com.thinktalkbuild.contractreader.ui.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,13 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @Autowired
-    private AnalyserService analyserService;
+    private UserService userService;
 
-    @GetMapping("/")
-    public String home(@AuthenticationPrincipal UserDetails user, Model model) {
-        model.addAttribute("auth", user);
-        return "home";
-    }
 
     @GetMapping("/user")
     public String user(HttpServletRequest request,
@@ -47,7 +43,17 @@ public class UserController {
         }
         if(idToken != null){
             model.addAttribute("idtoken", idToken.getTokenValue());
+            log.info("Subject claim = [{}]", idToken.getSubject());
+            log.info("Principal id = [{}]", principal.getName());
         }
+
+        try{
+            userService.createUser(idToken.getTokenValue());
+        }catch(Exception e){
+            model.addAttribute("errormessage", "Failed to post user data to API");
+            log.error(e.getMessage());
+        }
+
         return "user";
     }
 

@@ -21,6 +21,7 @@ public class ContractReaderUIApplication extends WebSecurityConfigurerAdapter {
 								"/",
 								"/error",
 								"/css/**",
+								"/policies/**",
 								"/js/**").permitAll()
 						.anyRequest().authenticated()
 				)
