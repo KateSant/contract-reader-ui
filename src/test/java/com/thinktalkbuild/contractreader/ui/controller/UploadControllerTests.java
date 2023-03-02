@@ -66,7 +66,6 @@ public class UploadControllerTests {
         ObligationsByParty obligations = new ObligationsByParty(mockSortedObligations);
         a.setObligationsByParty(obligations);
 
-
         when(mockAnalyserService.postToAnalysisEngine(anyObject(), anyString())).thenReturn(a);
 
         MvcResult result = mvc.perform(multipart("/upload-file")

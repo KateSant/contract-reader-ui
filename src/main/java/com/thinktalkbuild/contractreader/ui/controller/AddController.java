@@ -1,5 +1,6 @@
 package com.thinktalkbuild.contractreader.ui.controller;
 import com.thinktalkbuild.contractreader.ui.model.Analysis;
+import com.thinktalkbuild.contractreader.ui.service.AddContractService;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,24 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class AddController {
 
+    @Autowired
+    private AddContractService addContractService;
 
     @GetMapping("/add-contract")
-    public String uploadForm() {
+    public String addContractForm() {
         return "add-contract";
+    }
+
+    @PostMapping("/add-contract")
+    public String addContractPost(@RequestParam("name") String name,
+                             Model model,
+                             @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) {
+
+        addContractService.postToAddEndpoint(name, idToken.getTokenValue());
+
+        model.addAttribute("result", "success");
+        return "add-contract";
+
     }
 
 }

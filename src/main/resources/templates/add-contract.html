@@ -13,6 +13,10 @@
     <nav class="panel">
         <section class="section">
 
+            <div>
+               Result: <span th:text="${result}"/>
+            </div>
+
                 <form method="POST" th:action="@{/add-contract}" >
 
                     Name: <input name="name"/>
