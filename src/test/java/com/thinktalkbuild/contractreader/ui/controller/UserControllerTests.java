@@ -1,6 +1,5 @@
 package com.thinktalkbuild.contractreader.ui.controller;
 
-import com.thinktalkbuild.contractreader.ui.model.*;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
 import com.thinktalkbuild.contractreader.ui.service.UserService;
 import org.junit.jupiter.api.Test;

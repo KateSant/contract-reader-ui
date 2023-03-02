@@ -1,6 +1,6 @@
 package com.thinktalkbuild.contractreader.ui.controller;
 
-import com.thinktalkbuild.contractreader.ui.model.*;
+import com.thinktalkbuild.contractreader.ui.model.analysis.*;
 import com.thinktalkbuild.contractreader.ui.service.AnalyserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.io.ByteArrayInputStream;
-import java.time.Period;
 import java.util.*;
 
 import static org.hamcrest.Matchers.*;

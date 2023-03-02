@@ -1,4 +1,4 @@
-package com.thinktalkbuild.contractreader.ui.model;
+package com.thinktalkbuild.contractreader.ui.model.analysis;
 
 import lombok.Data;
 
