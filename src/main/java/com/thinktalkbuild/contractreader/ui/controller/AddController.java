@@ -34,9 +34,14 @@ public class AddController {
 
         ContractMetadata contract = new ContractMetadata();
         contract.setName(name);
-        addContractService.postToAddEndpoint(contract, idToken.getTokenValue());
+        try{
+            addContractService.postToAddEndpoint(contract, idToken.getTokenValue());
+            model.addAttribute("result", "success");
+        }catch(Exception e){
+            log.error("Exception POSTing: [{}]", e.getMessage());
+            model.addAttribute("result", "fail");
+        }
 
-        model.addAttribute("result", "success");
         return "add-contract";
 
     }
