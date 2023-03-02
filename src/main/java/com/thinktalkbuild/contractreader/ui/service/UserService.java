@@ -34,7 +34,7 @@ public class UserService extends SecureRestClient {
         log.info("Posting to endpoint [{}] with token [{}]", url, idToken);
         RestTemplate restTemplate = restTemplateWithAuthHeader(idToken);
         ResponseEntity<String> response = restTemplate.postForEntity(url, null, String.class);
-        log.info("Response from user endpoint = [{}]");
+        log.info("Response from user endpoint = [{}] [{}]", response, response.getStatusCode());
     }
 
 

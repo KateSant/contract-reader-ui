@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<div th:replace="fragments/nav :: nav"></div>
+
+<section class="container section">
+
+    <h2 class="subtitle">
+        Add a contract
+    </h2>
+
+    <nav class="panel">
+        <section class="section">
+
+                <form method="POST" th:action="@{/add-contract}" >
+
+                    Name: <input name="name"/>
+                </form>
+
+        </section>
+    </nav>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+
+</body>
+</html>
