@@ -1,24 +1,23 @@
 package com.thinktalkbuild.contractreader.ui.service;
 
-import org.junit.After;
-import org.junit.Before;
+import com.thinktalkbuild.contractreader.ui.model.dto.ContractMetadata;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
-import org.mockserver.model.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.verify.VerificationTimes.exactly;
 
 @SpringBootTest
-public class UserServiceTests {
+public class AddContractServiceTests {
 
     @Autowired
-    private UserService service;
+    private AddContractService service;
 
     private ClientAndServer mockServer;
 
@@ -33,15 +32,15 @@ public class UserServiceTests {
     }
 
     @Test
-    void whenCreateUser_shouldPostToAPI_WithOidToken() {
+    void whenCallPostToEndpoint_thenSendsPost() throws Exception {
 
-        mockServer.when(request().withPath("/user"))
+        mockServer.when(request().withPath("/add-contract"))
                 .respond(response().withBody(""));
-        service.createUser("tokenabc");
+
+        service.postToAddEndpoint(new ContractMetadata(), "sometoken");
 
         mockServer.verify(request()
-                        .withPath("/user")
-                        .withHeader(new Header("Authorization", "Bearer tokenabc")),
+                  .withPath("/add-contract"),
                 exactly(1));
 
     }
