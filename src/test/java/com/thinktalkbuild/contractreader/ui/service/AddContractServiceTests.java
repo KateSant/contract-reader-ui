@@ -34,13 +34,13 @@ public class AddContractServiceTests {
     @Test
     void whenCallPostToEndpoint_thenSendsPost() throws Exception {
 
-        mockServer.when(request().withPath("/add-contract"))
+        mockServer.when(request().withPath("/contract"))
                 .respond(response().withBody(""));
 
         service.postToAddEndpoint(new ContractMetadata(), "sometoken");
 
         mockServer.verify(request()
-                  .withPath("/add-contract"),
+                  .withPath("/contract"),
                 exactly(1));
 
     }
