@@ -36,7 +36,10 @@ public class AddContractService extends SecureRestClient{
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(contract);
         log.info("Posting to endpoint [{}] json [{}] with token [{}]", url, json, idToken);
-        String response = restTemplate.postForObject(url, json, String.class);
+
+        HttpEntity requestEntity = new HttpEntity<>(json, headers);
+        ResponseEntity response = restTemplate.postForEntity(url, requestEntity, String.class);
+
         //.. do something with response
     }
 
