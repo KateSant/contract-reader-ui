@@ -13,14 +13,23 @@
     <nav class="panel">
         <section class="section">
 
+            <form method="POST" th:action="@{/add-contract}">
+                <div>
+                    <label for="name">Name:</label>
+                    <input id="name" name="name">
+                </div>
+                <div>
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                <div>
+                    <input type="submit"/>
+                </div>
+            </form>
+
             <div>
-               Result: <span th:text="${result}"/>
+                <span th:text="${result}"/>
             </div>
-
-                <form method="POST" th:action="@{/add-contract}" >
-
-                    Name: <input name="name"/>
-                </form>
 
         </section>
     </nav>
