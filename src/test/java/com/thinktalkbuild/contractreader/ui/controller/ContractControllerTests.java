@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AddControllerTests {
+public class ContractControllerTests {
 
     @Autowired
     private MockMvc mvc;
@@ -49,6 +49,7 @@ public class AddControllerTests {
 
         MvcResult result = mvc.perform(post("/add-contract")
                 .param("name", "foo")
+                .param("startDate", "2023-03-01")
                 .with(csrf())
                 .with(oidcLogin()))
                 .andExpect(status().is(200))
