@@ -38,8 +38,7 @@ public class ContractControllerTests {
 
         mvc.perform(get("/add-contract").with(oidcLogin()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Add")));
+                .andExpect(status().isOk());
     }
 
     @Test

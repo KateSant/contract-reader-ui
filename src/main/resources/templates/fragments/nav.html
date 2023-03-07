@@ -6,10 +6,10 @@
         <div th:fragment="nav" >
 
 
-            <nav class="navbar bd-navbar is-link contracts-reader-nav" style="background-color: #3e5780; height: 80px">
+            <nav class="navbar bd-navbar">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="/">
-                        <span class="contracts-hub-logo">CONTRACT HUB</span>
+                        <span class="contracts-hub-logo">Contract AI</span>
                     </a>
 
                     <div class = "navbar-burger burger" data-target="navbarExample">
@@ -24,34 +24,28 @@
 
                 <div id="navbarMenu" class="navbar-menu">
                     <div class="navbar-start">
-                        <a class="navbar-item" href="/">
-                            <span class="icon">
-                                <i class="fas fa-home"></i>
+
+                        <a class="navbar-item" href="/upload-form">
+                            <span class="icon navbar-icon-analyze">
+                                <i class="fas fa-magic"></i>
                             </span>
 
-                            <span>Home</span>
-                        </a>
-
-                        <a class="navbar-item " href="/upload-form">
-                            <span class="icon">
-                                <i class="fas fa-upload"></i>
-                            </span>
-
-                            <span>Upload</span>
-                        </a>
-
-                        <a class="navbar-item " href="/user">
-                            <span class="icon">
-                                <i class="fas fa-user"></i>
-                            </span>
-
-                            <span>User</span>
+                            <span>Analyse</span>
                         </a>
 
                         <a class="navbar-item " href="/add-contract">
-                            <span>Add</span>
+                            <span class="icon navbar-icon-add">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span>Store</span>
                         </a>
 
+                        <a class="navbar-item " href="/user">
+                            <span class="icon navbar-icon-user">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <span>User</span>
+                        </a>
 
                     </div>
 

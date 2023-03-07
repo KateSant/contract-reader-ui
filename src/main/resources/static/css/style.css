@@ -1,8 +1,32 @@
+.navbar {
+    background-color: #fff;
+    }
 .highlight { background-color:#FFFFD4; }
 .filename { font-style: italic; }
 .contract-snippet { font-family: Georgia, serif; padding: 10px; }
-.contracts-hub-logo { font-size:x-large; border-style: solid; border-width: 1px; padding-left: 10px; padding-right:10px; padding-top:6px; padding-bottom:6px; }
+.contracts-hub-logo {
+    font-family: courier new, sans-serif;
+    color: black;
+    font-weight: bold;
+    font-size:x-large;
+    border-width: 1px;
+    padding-left: 10px;
+    padding-right:10px;
+}
 .footer { background-color: #fff;font-size: smaller; }
 .is-error {color: red}
 .legal-concept {font-style: italic; }
+
+.navbar-icon-analyze {
+    color: green;
+}
+.navbar-icon-add {
+    color: #FF5733;
+}
+.navbar-icon-user {
+    color: #FFC300;
+}
+.fa-file-word {
+    color: blue;
+}
 

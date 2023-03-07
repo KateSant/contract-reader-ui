@@ -45,8 +45,7 @@ public class UploadControllerTests {
 
         mvc.perform(get("/upload-form").with(oidcLogin()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Upload")));
+                .andExpect(status().isOk());
     }
 
     @Test
