@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 @Slf4j
-public class UploadController {
+public class AnalyseController {
 
     @Autowired
     private AnalyserService analyserService;

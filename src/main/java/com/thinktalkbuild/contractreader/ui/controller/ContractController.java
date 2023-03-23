@@ -1,6 +1,6 @@
 package com.thinktalkbuild.contractreader.ui.controller;
 import com.thinktalkbuild.contractreader.ui.model.dto.ContractMetadata;
-import com.thinktalkbuild.contractreader.ui.service.AddContractService;
+import com.thinktalkbuild.contractreader.ui.service.ContractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  *
@@ -24,7 +23,7 @@ import java.util.Date;
 public class ContractController {
 
     @Autowired
-    private AddContractService addContractService;
+    private ContractService contractService;
 
     @GetMapping("/add-contract")
     public String addContractForm() {
@@ -42,7 +41,7 @@ public class ContractController {
         contract.setStartDate(startDate);
 
         try{
-            addContractService.postToAddEndpoint(contract, idToken.getTokenValue());
+            contractService.postToAddEndpoint(contract, idToken.getTokenValue());
             model.addAttribute("result", "success");
         }catch(Exception e){
             log.error("Exception POSTing: [{}]", e.getMessage());
@@ -51,6 +50,13 @@ public class ContractController {
 
         return "add-contract";
 
+    }
+
+    @GetMapping("/my-contracts")
+    public String listContracts(Model model,
+                                @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) throws Exception {
+        contractService.getContractMetadata(idToken.getTokenValue());
+        return "list-contracts";
     }
 
 }

@@ -14,10 +14,10 @@ import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.verify.VerificationTimes.exactly;
 
 @SpringBootTest
-public class AddContractServiceTests {
+public class ContractServiceTests {
 
     @Autowired
-    private AddContractService service;
+    private ContractService service;
 
     private ClientAndServer mockServer;
 
