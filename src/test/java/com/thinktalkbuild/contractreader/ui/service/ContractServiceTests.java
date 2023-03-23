@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.integration.ClientAndServer;
+import org.mockserver.model.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -52,7 +53,9 @@ public class ContractServiceTests {
     void whenCallGetToEndpoint_thenSendsGet() throws Exception {
 
         mockServer.when(request().withPath("/contract"))
-                .respond(response().withBody("[]"));
+                .respond(response()
+                        .withContentType(MediaType.APPLICATION_JSON)
+                        .withBody("[]"));
 
         service.getContractMetadata("sometoken");
 
