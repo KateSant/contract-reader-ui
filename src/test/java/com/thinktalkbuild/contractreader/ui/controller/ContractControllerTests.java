@@ -14,8 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +30,7 @@ public class ContractControllerTests {
     private ContractService addContractService;
 
     @Test
-    void whenGetAddContractPagePage_withMockedAuth_thenReceiveSuccess()
+    void whenGetAddContractPage_withMockedAuth_thenReceiveSuccess()
             throws Exception {
 
         mvc.perform(get("/add-contract").with(oidcLogin()))
@@ -54,6 +53,15 @@ public class ContractControllerTests {
         String stringResult = result.getResponse().getContentAsString();
         assertTrue(stringResult.contains("success"));
 
+    }
+
+    @Test
+    void whenGetMyContractsPage_thenReceiveSuccess()
+            throws Exception {
+
+        mvc.perform(get("/my-contracts").with(oidcLogin()))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
 }

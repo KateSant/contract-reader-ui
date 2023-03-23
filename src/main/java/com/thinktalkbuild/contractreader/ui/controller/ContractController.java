@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  *
@@ -55,7 +56,8 @@ public class ContractController {
     @GetMapping("/my-contracts")
     public String listContracts(Model model,
                                 @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) throws Exception {
-        contractService.getContractMetadata(idToken.getTokenValue());
+        List<ContractMetadata> contracts = contractService.getContractMetadata(idToken.getTokenValue());
+        model.addAttribute("contracts", contracts);
         return "list-contracts";
     }
 

@@ -8,8 +8,16 @@
 
 
     <nav class="panel">
-        <section class="section">
-list
+        <section class="section content">
+            <div th:each="contract : ${contracts}">
+
+                <h4 th:text = "${contract.name}"/>
+                <p> Start date: <span th:text = "${contract.startDate}"/>
+                </p>
+                <br/>
+
+
+            </div>
 
         </section>
     </nav>

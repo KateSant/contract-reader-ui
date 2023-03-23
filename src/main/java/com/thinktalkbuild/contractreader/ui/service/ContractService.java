@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  *
@@ -45,10 +48,17 @@ public class ContractService extends SecureRestClient{
         //.. do something with response
     }
 
-    public void getContractMetadata(String idToken) throws Exception {
+    public List<ContractMetadata> getContractMetadata(String idToken) throws Exception {
         String url = apiUrl + contractEndpoint;
         RestTemplate restTemplate = restTemplateWithAuthHeader(idToken);
         log.info("Getting from endpoint [{}] with token [{}]", url, idToken);
+        ResponseEntity<ContractMetadata[]> response =
+                restTemplate.getForEntity(
+                        url,
+                        ContractMetadata[].class);
+        ContractMetadata[] contracts = response.getBody();
+        log.info("received [{}] contracts", contracts.length);
+        return Arrays.asList(contracts);
     }
 
 }
