@@ -1,5 +1,5 @@
 # Build stage
-FROM maven AS build
+FROM maven:3.9.4-amazoncorretto-11 AS build
 WORKDIR /workspace
 COPY pom.xml .
 COPY src src
